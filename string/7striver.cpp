@@ -398,3 +398,37 @@ public:
 
     }
 };
+
+// ======================================================================
+Leetcode 921
+
+
+
+class Solution {
+public:
+    int minAddToMakeValid(string s) {
+        int open = 0;
+        int size = 0;
+        for (int i = 0; i < s.size(); i++) {
+            if (s[i] == '(') {
+                if (open == 0)
+                    size++;
+                else {
+                    open--;
+                }
+            }
+            else if (s[i] == ')') {
+                if (size != 0) {
+                    size--;
+                }
+                else {
+                    open++;
+                }
+            }
+        }
+        if (open != 0) return open;
+        return size;
+    }
+};
+
+// ======================================================================================

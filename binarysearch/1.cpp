@@ -96,7 +96,7 @@ low=mid+1;
 }
 // =============================================================================================================================
 // search insert position
-// is it not equal to saying we have to insert only at lower bound
+// is it (not) equal to saying we have to insert only at lower bound
 
 class Solution {
 public:
@@ -150,6 +150,25 @@ high=mid-1;
 }
 
 
+
+int ceil(vector<int>& nums, int x) {
+    int n = nums.size();
+    int ans = -1;
+    int low = 0, high = n - 1;
+
+    while (low <= high) {
+        int mid = low + (high - low) / 2;
+
+        if (nums[mid] >= x) {
+            ans = nums[mid];  // potential ceil
+            high = mid - 1;   // try to find smaller number ≥ x
+        } else {
+            low = mid + 1;
+        }
+    }
+
+    return ans;
+}
 // =====================================================================================
 // find the first and last occurence of x
 
@@ -181,7 +200,7 @@ vector<int> first_last_occurrence(vector<int>& nums, int x) {
 FIRST OCCURENCE WILL BE (LOWER BOUND) AND LAST OCCURENCE WILL BE (UPPERBOUND -1)
 
 int lowerBound(vector<int>& arr, int n, int x) {
-    int low = 0, high = n - 1;
+    int low = 0, high = n - 1; 
     int ans = n;
     while (low <= high) {
         int mid = (low + high) / 2;
