@@ -284,7 +284,6 @@ while(curr!=NULL){
 
 
 
-}; 
 
 int main()
 {

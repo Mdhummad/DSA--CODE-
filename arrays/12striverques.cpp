@@ -767,6 +767,10 @@ int longest_subarray_with_sum_k(vactor<int>& arr,long long k){
     }
 
 
+   }  
+
+
+    }
 
 
 

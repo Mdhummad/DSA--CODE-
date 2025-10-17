@@ -42,6 +42,7 @@ int leftHeight(Node* root) {
 }
 
 
+
 // ========================================================================
 int count(Node* root){
     if(root==NULL)return 0;
@@ -532,6 +533,22 @@ return ans;
         return isSymmetricHelp(left->left, right->right) &&
                isSymmetricHelp(left->right, right->left);
     }
+
+
+
+    class Solution {
+public:
+bool asymmetric(TreeNode* left,TreeNode* right){
+    if(right==nullptr ||left==nullptr)return (right==left);
+    if((left->val==right->val)&& asymmetric(left->right,right->left) &&  asymmetric(left->left,right->right)) return true;
+    return false;
+}
+    bool isSymmetric(TreeNode* root) {
+     if (root==nullptr)return 0;   
+    
+    return asymmetric(root->left,root->right);
+    }
+};
 
 // ==============================================================================================================================================================================
 
