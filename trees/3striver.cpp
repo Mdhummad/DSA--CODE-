@@ -35,8 +35,7 @@ public:
                 st.push(current->right);
             if (current->left != NULL)
                 st.push(current->left);
-        // HI Codes i used to think what is lonliness until i personally felt it ,its hard really hard but at the same time very motivating ,i think i will just not survive but will thrive through it ,i will make it and for sure i would have the ppo INSHALLAH 
-
+jj
      //above we have created node * current which is pointing to the top of stack but we can also write code without using it
             /*
             root = st.top();
