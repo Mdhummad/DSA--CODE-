@@ -68,6 +68,8 @@ low=mid+1;
 }
 
 
+ 
+
 // lb=lower_bound(arr.begin(),arr.end(),n)-arr.begin();
 }
 
@@ -75,7 +77,7 @@ low=mid+1;
 // upper bound
 // smallest insex such that arr[ind]>x;
 
-int lower_bound(vector<int>& arr,int x){
+int upper_bound(vector<int>& arr,int x){
 sort(arr.begin(),arr.end());
 int n=arr.size();
 int low=0;
@@ -273,6 +275,7 @@ pair<int, int> firstAndLastPosition(vector<int>& arr, int n, int x) {
 
 // }
 // return -1;
+
 
 
 // }

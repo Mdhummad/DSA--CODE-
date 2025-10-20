@@ -316,19 +316,16 @@ vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
 
 
     // Add all leaves (left to right)
-    void addLeaves(Node *root, vector<int> &res)
-    {
-        if (isLeaf(root))
-        {
-            res.push_back(root->data);
-            return;
-        }
-        if (root->left)
-            addLeaves(root->left, res);
-        if (root->right)
-            addLeaves(root->right, res);
-    }
+  void addLeafNodes(Node* root,vector<int>& res) {
 
+    if(root == NULL) return;
+    if(root->left == NULL && root->right == NULL) {
+     res.push_back(root->data);
+        return;
+    }
+    addLeafNodes(root->left,res);
+    addLeafNodes(root->right,res);
+}
     // Main boundary traversal function
     vector<int> printBoundary(Node *root)
     {
@@ -340,11 +337,12 @@ vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
             res.push_back(root->data);
 
         addLeftBoundary(root, res);
-        addLeaves(root, res);
+        addLeafNodes(root, res);
         addRightBoundary(root, res);
 
         return res;
     }
+
     // ======================================================================================================
 // vertical order traversal
     

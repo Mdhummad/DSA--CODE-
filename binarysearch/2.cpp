@@ -140,7 +140,7 @@ int minimumRateToEatBananas(vector<int> &v, int h) {
 
 
 class Solution {
-public:
+public: 
     bool possible(vector<int> &arr, int day, int m, int k) {
         int cnt = 0;      // count consecutive flowers
         int bouquets = 0; // number of bouquets we can make
@@ -157,7 +157,9 @@ public:
                 cnt = 0; // reset if flower not bloomed
             }
         }
-        return bouquets >= m;
+        if(bouquets>=m)return true;
+        else{
+        return false;}
     }
     
     int minDays(vector<int>& bloomDay, int m, int k) {

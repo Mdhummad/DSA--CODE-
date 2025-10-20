@@ -1,3 +1,23 @@
+//DiJkstra's algo
+//used to find the shortest path in a weighted undirected fraph
+//in ADJACENCY LIST corresponding nodes ans weight are store
+// dijkstra algo can be implemented via priority queue and set and not queue (SEE VIDEO WHY????)
+
+
+
+
+
+
+
+
+
+// do code
+
+
+
+
+
+
 // TOPO SORT (DFS)==>applicable only on DIRECTED ACYCLIC GRAPH
 
 /*
