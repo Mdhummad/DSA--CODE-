@@ -188,3 +188,190 @@ return max_sum;
 };
 
 */
+// ============================================================================================
+// leetcode 3 
+
+//BRUTE FORCE
+int lengthOfLongestSubstring(string s) {
+    int n = s.size();
+    int maxLen = 0;
+
+    for (int i = 0; i < n; i++) {
+        vector<int> hash(256, 0); // frequency map for each character
+
+        for (int j = i; j < n; j++) {
+            int x = s[j];
+            if (hash[x] == 1)  // duplicate found
+                break;
+
+            hash[x] = 1; // mark as seen
+            maxLen = max(maxLen, j - i + 1);
+        }
+    }
+    return maxLen;
+}
+
+
+// OPTIMAL
+
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        int n = s.size();
+        int l = 0, r = 0;
+        int max_length = 0;
+        map<char, int> freq;
+
+        while (r < n) {
+            if (freq.find(s[r]) != freq.end() && freq[s[r]] >= l) {
+                l = freq[s[r]] + 1;
+            }
+
+            freq[s[r]] = r;
+            max_length = max(max_length, r - l + 1);
+            r++;
+        }
+
+        return max_length;
+    }
+};
+
+// =====================================================================================
+// maximum number of ones
+
+// Brute force
+  int longestOnes(vector<int>& nums, int k) {
+        int n = nums.size();
+        int maxLen = 0;
+
+        for (int i = 0; i < n; i++) {
+            int zeroCount = 0;
+            for (int j = i; j < n; j++) {
+                if (nums[j] == 0)
+                    zeroCount++;
+
+                if (zeroCount > k)
+                    break;
+
+                maxLen = max(maxLen, j - i + 1);
+            }
+        }
+        return maxLen;
+    }
+// OPRIMAL
+class Solution {
+public:
+    int longestOnes(vector<int>& nums, int k) {
+        int n = nums.size();
+        int l = 0, r = 0;
+        int zeroes = 0, max_len = 0;
+
+        while (r < n) {
+            if (nums[r] == 0) zeroes++;
+
+            while (zeroes > k) {
+                if (nums[l] == 0) zeroes--;
+                l++;
+            }
+
+            max_len = max(max_len, r - l + 1);
+            r++;
+        }
+
+        return max_len;
+    }
+};
+
+//====================================================================================================
+// Fruits into baskets
+// max length subarray with at most 2 type of number
+
+
+// BRUTE FORCE
+int fruit_in_basket(vector<int> nums, int n) {
+    int max_len = 0;
+
+    for (int i = 0; i < n; i++) {
+        set<int> st;
+        for (int j = i; j < n; j++) {
+            st.insert(nums[j]);
+
+            if (st.size() > 2)  // more than 2 types of fruits
+                break;
+
+            max_len = max(max_len, j - i + 1);
+        }
+    }
+
+    return max_len;
+}
+
+
+// OPTIMAL
+
+int fruit_in_basket(vector<int> nums, int n) {
+    int max_len = 0;
+    int l = 0, r = 0;
+    map<int, int> mp;
+
+    while (r < n) {
+        mp[nums[r]]++;
+
+        while (mp.size() > 2) {
+            mp[nums[l]]--;
+            if (mp[nums[l]] == 0)
+                mp.erase(nums[l]);
+            l++;
+        }
+        if(mp.size()<=k){
+        max_len = max(max_len, r - l + 1);}
+        r++;
+    }
+
+    return max_len;
+}
+
+//==================================================================================
+// longest substring with atmost k distinct character
+// =======================================================================================
+// number of substring containing all 3 char
+
+// BRUTE
+int countSubstrings(string s) {
+    int n = s.size();
+    int count = 0;
+
+    for (int i = 0; i < n; i++) {
+        vector<int> hash(3, 0); // for 'a', 'b', 'c'
+        for (int j = i; j < n; j++) {
+            hash[s[j] - 'a']++;
+
+            // check if all three characters are present
+            if (hash[0] > 0 && hash[1] > 0 && hash[2] > 0)
+                count++;
+        }
+    }
+
+    return count;
+}
+
+
+//OPTIMAL
+class Solution {
+public:
+    int numberOfSubstrings(string s) {
+        int n=s.size();
+        int count=0;
+        vector<int>hash(3,-1);
+    for(int i=0;i<n;i++){
+        hash[s[i]-'a']=i;
+        if(hash[0]!=-1 && hash[1]!=-1 && hash[2]!=-1){
+         count += 1 + min({hash[0], hash[1], hash[2]}); 
+    }
+
+    }
+    return count;
+    }
+};
+// ===========================================================================
+

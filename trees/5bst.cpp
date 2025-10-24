@@ -56,7 +56,7 @@ TreeNode* insertIntoBST(TreeNode* root, int val) {
         inorderTraversal(node->right);
     }
 
-    Node* search(int key) {
+    Node* search(Node* root,int key) {
         Node* curr = root;
         while (curr) {
             if (curr->data == key)
@@ -80,6 +80,7 @@ Node* findMin() {
         return curr;
     }
 
+
     Node* findMax() { 
         if (!root) return nullptr;
         Node* curr = root;
@@ -87,6 +88,19 @@ Node* findMin() {
             curr = curr->right;
         return curr;
     }
+
+
+
+    // below code is also correct
+     Node* findMax() { 
+        if (!root) return nullptr;
+        Node* curr = root;
+            while (curr!=nullptr)
+            if(curr->right!=nullptr){
+            curr = curr->right;}
+        return curr;
+    }
+
 
 
 
@@ -146,6 +160,28 @@ int floor(tree<int> * root , int key){
 
 }
 
+
+// INSERTING INTO A BST
+TreeNode* insertIntoBST(TreeNode* root, int val) {
+        if(root==NULL) return new TreeNode(val);
+        else if(root->val > val){
+        if(root->left==NULL){
+            root->left=new TreeNode(val);
+            
+               }
+               else  insertIntoBST(root->left,val); 
+        }
+        else{
+        if(root->right==NULL){
+            root->right=new TreeNode(val);
+            
+               }
+               else  insertIntoBST(root->right,val);
+        }
+        return root;
+    }
+
+    
 
 
 

@@ -302,6 +302,10 @@ return low;
 // ========================================================================================================
 // ========================================================================================================
 // ========================================================================================================
+
+
+// ==========================================================================================================================
+
 NEW PATTERN FROM HERE  THAT IS MIN OF MAX    ORRR MAX OF MIN
 
 // AGGRESSIVE COWS
@@ -347,7 +351,8 @@ return high;
 
 }
 // =========================================================================================================
-
+// BOOK ALLOCATION
+// allocate book to m students such that maximum number of pages assigned is min
 
 int countStudents(vector<int>& nums, int pages) {
     int students = 1;
@@ -388,9 +393,10 @@ int findPages(vector<int>& nums, int no_of_students, int no_of_books) {
 */
 
 // ==============================================================================================================
-
-
 // PAINTERS PARTITION and SPLIT ARRAY LARGEST SUM
+// so given an array we have to split array such that sum of a subarray is min is compared to sum of all other partition 
+
+
 
 
 
@@ -517,7 +523,7 @@ there is a particular APPROACH I THAUGHT SO IT IS NOT IMPORTANT IF YOU FELT LIKE
 PLZZ SEE THE VIDEO
 
 
-
+// dont do ittttttt
 
 */
 
@@ -539,115 +545,3 @@ brute sol will be two merge these two arrays and find the kth element ,but it wi
 // =====================================================================================================================================================
 // =====================================================================================================================================================
 // =====================================================================================================================================================
-// BINARY SEARCH ON 2 D ARRAYS
-
-
-/*
-int lower bound(vector<int>& arr, int n,int x){
-int low=0;
-int high=n-1;
-int ans=n;
-while(low<=high){
-int mid=(low+high)/2;
-if(arr[mid]>=x){
-ans=mid;
-high=mid-1l
-}
-else{
-low=mid+1;}
-
-
-}
-return ans;
-
-
-}
-
-int row_with_max_1(vector<vector<int>>& matrix,int n,int m){
-int cnt_max=-0;
-int index=-1;
-for(int i=0;i<n;i++){
-int cnt_ones=m-lowebound(matrix[i],m,1);
-if(cnt_ones>cnt_max){
-cnt_max=cnt_ones;
-index=i;
-}
-}
-return index;
-}
-
-
-*/
-
-// =======================================================================================
-
-// search in a 2-d matrix
-
-
-// YOU KNOW HOW TO DO IT IN BRUTE FORCE(ITERATING IN EACH ELEMENT AND GIVING ANSWER)
-
-// we will flatten the 2-d array hipotheticalyy in this question 
-// if we actually do it will take o(n*m) time
-
-
-// we know how to change index of 1-d to that of 2-d
-
-// row=index/m;
-// column=index%m
-
-
-
-/*
-bool searchMatrix(vector<vector<int>>& mat, int target) {
-    int n = mat.size();
-    int m = mat[0].size();
-
-    int low = 0, high = n * m - 1;
-
-    while (low <= high) {
-        int mid = (low + high) / 2;
-        int row = mid / m;
-        int col = mid % m;
-
-        if (mat[row][col] == target) 
-            return true;
-        else if (mat[row][col] < target) 
-            low = mid + 1;
-        else 
-            high = mid - 1;
-    }
-
-    return false;
-}
-
-
-
-
-*/
-
-
-// =======================================================================================
-// SEARCH IN A MATRIX 2
-
- //BRUTE FORCE WILL BE TO GO ON EVERY ELEMENT AND FINDING THE TARGET ,BUT HERE THE TIME COMPLEXITY WILL BE O(n*m)
- //better will be to go in every row and do binary search ,thus time complexity will recuce and will be O(n*logm)
-
- /*
- 
- class Solution {
-public:
-    bool searchMatrix(vector<vector<int>>& matrix, int target) {
-       int rows= matrix.size();
-       int cols=matrix[0].size();
-        int i=0;
-        int j=cols-1;
-        while(i<=rows-1 && j>=0){
-            if(matrix[i][j]== target) return true;
-            else if(matrix[i][j]>target)j--;
-            else i++;
-
-        }
-        return false;
-    }
-};
- */

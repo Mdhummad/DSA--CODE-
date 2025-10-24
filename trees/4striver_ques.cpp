@@ -324,7 +324,7 @@ vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
         return;
     }
     addLeafNodes(root->left,res);
-    addLeafNodes(root->right,res);
+    addLeafNodes(root->right,res );
 }
     // Main boundary traversal function
     vector<int> printBoundary(Node *root)
@@ -407,10 +407,9 @@ return ans;
         q.push({root, 0}); // Start with the root at horizontal distance 0
 
         while (!q.empty()) {
-            auto front = q.front();
-            q.pop();
-            Node* current = front.first;
-            int hd = front.second;
+          
+            Node* current = q.front().first;
+            int hd = q.front().second;
 
             // If this is the first node at this horizontal distance, add it to the map
             if (mp.find(hd) == mp.end()) {
@@ -434,6 +433,8 @@ return ans;
 
         return ans;
 
+ }
+
 
 
 
@@ -451,12 +452,10 @@ return ans;
         q.push({root, 0}); // Start with the root at horizontal distance 0
 
         while (!q.empty()) {
-            auto front = q.front();
-            q.pop();
-            Node* current = front.first;
-            int hd = front.second;
+            Node* current = q.front().first;
+            int hd = q.front{}.second;
                 mp[hd] = current->data;
-    
+    // AS KEY IS UNIQUE SO IT WILL GIVE BOTTOM VIEW
 
             // Push left child with horizontal distance -1
             if (current->left) {
@@ -500,8 +499,8 @@ return ans;
         }
 
         // Recur for left and right subtrees
-        recursion(root->right, res, level + 1);
         recursion(root->left, res, level + 1);
+        recursion(root->right, res, level + 1);
     }
 
 
