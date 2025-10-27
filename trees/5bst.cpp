@@ -22,6 +22,7 @@ public:
             node->right = insertNode(node->right, val);
         return node;
     }
+
 /*
 Iterative insertion in tree
 TreeNode* insertIntoBST(TreeNode* root, int val) {
@@ -56,6 +57,7 @@ TreeNode* insertIntoBST(TreeNode* root, int val) {
         inorderTraversal(node->right);
     }
 
+  
     Node* search(Node* root,int key) {
         Node* curr = root;
         while (curr) {
@@ -68,6 +70,7 @@ TreeNode* insertIntoBST(TreeNode* root, int val) {
         }
         return nullptr;
     }
+
 
  /*
  MIN AND MAX
@@ -90,16 +93,21 @@ Node* findMin() {
     }
 
 
-
-    // below code is also correct
-     Node* findMax() { 
-        if (!root) return nullptr;
-        Node* curr = root;
-            while (curr!=nullptr)
-            if(curr->right!=nullptr){
-            curr = curr->right;}
-        return curr;
+    node* findMax(node* root) {
+    if (root == nullptr) return nullptr;
+    node* curr = root;
+    while (curr) {
+        if (curr->right == nullptr) {
+            return curr;
+        } else {
+            curr = curr->right;
+        }
     }
+    return nullptr;
+}
+
+
+
 
 
 
@@ -130,8 +138,6 @@ CIEL OF A BST
 return ceil;
     }
  }
-
-
 };
 
 
@@ -268,8 +274,119 @@ node* findlastright(node* root){
  }
 
 
+// see chat gpt
+ class Solution {
+public:
+    TreeNode* findMin(TreeNode* root) {
+        TreeNode* curr = root;
+        while (curr && curr->left != nullptr) {
+            curr = curr->left;
+        }
+        return curr;
+    }
+
+    TreeNode* deleteNode(TreeNode* root, int key) {
+        if (root == nullptr) return nullptr;
+
+        if (key < root->val) {
+            root->left = deleteNode(root->left, key);
+        } else if (key > root->val) {
+            root->right = deleteNode(root->right, key);
+        } else {
+            // Node to delete found
+            if (!root->left && !root->right) { // Leaf node
+                delete root;
+                return nullptr;
+            } else if (!root->left) { // Only right child
+                TreeNode* temp = root->right;
+                delete root;
+                return temp;
+            } else if (!root->right) { // Only left child
+                TreeNode* temp = root->left;
+                delete root;
+                return temp;
+            } else { // Two children
+                TreeNode* temp = findMin(root->right); // Inorder successor
+                root->val = temp->val;
+                root->right = deleteNode(root->right, temp->val);
+            }
+        }
+        return root;
+    }
+};
+
+// ==============================================================================================
+// KTH smallext
+class Solution {
+public:
+void inorder(TreeNode* root,int k,int& counter,int& ans){
+if(root==nullptr)return ;
+inorder(root->left,k,counter,ans);
+counter++;
+if(counter==k){
+    ans=counter;
+    return;
+}
+inorder(root->right,k,counter,ans);
+
+}
+    int kthSmallest(TreeNode* root, int k) {
+        int counter=0;
+        int ans=-1;
+     inorder(root,k,counter,ans);
+     return ans;
+    }
+};
+// ========================================================================================================
+// is a valid bst
 
 
+class Solution {
+public:
+bool is_valid(TreeNode* root,int min_val,int max_val){
+    if(root==nullptr)return true;
+    if(root->val>=max_val || root->val<=min_val)return false;
+    if(is_valid(root->left,min_val,root->val) && 
+    is_valid(root->right,root->val,max_val))return true;
+    else{
+        return false;
+    }
+}
+    bool isValidBST(TreeNode* root) {
+        return is_valid(root,INT_MIN,INT_MAX);
+        
+    }
+};
+
+// OR
+// SEE HOW RETURN STATEMENT IS USED IN BOOL
+ class Solution {
+public:
+    bool is_valid(TreeNode* root, long long min_val, long long max_val) {
+        if (root == nullptr) return true;
+        if (root->val <= min_val || root->val >= max_val) return false;
+        return is_valid(root->left, min_val, root->val) && 
+               is_valid(root->right, root->val, max_val);
+    }
+
+    bool isValidBST(TreeNode* root) {
+        return is_valid(root, LLONG_MIN, LLONG_MAX);
+    }
+};
+// ===============================================================================================
+// LCA IN A BST
+   TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+   if(root->val==p->val || root->val==q->val) return root;
+    else  if(root->val > p->val && root->val < q->val) return root;
+    else  if(root->val < p->val && root->val > q->val) return root;
+    else  if(root->val < p->val && root->val < q->val) return lowestCommonAncestor(root->right,p,q);
+    else  return lowestCommonAncestor(root->left,p,q);
+    }
+};
+
+// see striver method too
+
+// ====================================================================================================
 
 //  construct a BST from preorder traversal
 node* bstfrompreorder(vector<int>& a){

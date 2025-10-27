@@ -1,3 +1,5 @@
+// TOTAL NUMBER OF SUBARRAY ENDING AT J==(J-I+1)
+
 // TYPE OF PROBLEM IN 2 POINTER AND SLIDING WINDOW PROBLEM
 // 1)CONSTANT WINDOW
 // 2)LONGEST SUBARRAY
@@ -374,4 +376,185 @@ public:
     }
 };
 // ===========================================================================
+// LEETCODE 424. Longest Repeating Character Replacement
 
+
+class Solution {
+public:
+    int characterReplacement(string s, int k) {
+        int max_len = 0;
+        int n = s.size();
+
+        for (int i = 0; i < n; i++) {
+            vector<int> hash(26, 0);
+            int max_f = 0;
+
+            for (int j = i; j < n; j++) {
+                hash[s[j] - 'A']++;
+                max_f = max(max_f, hash[s[j] - 'A']);
+
+                int changes = (j - i + 1) - max_f;
+                if (changes <= k) {
+                    max_len = max(max_len, j - i + 1);
+                } else {
+                    break;
+                }
+            }
+        }
+        return max_len;
+    }
+};
+
+
+// OPTIMAL
+class Solution {
+public:
+    int characterReplacement(string s, int k) {
+        int l = 0, max_len = 0;
+        vector<int> hash(26, 0);
+
+        for (int r = 0; r < s.size(); r++) {
+            hash[s[r] - 'A']++;
+
+            int max_freq = 0;
+            for (int c = 0; c < 26; c++)
+                max_freq = max(max_freq, hash[c]);
+
+            int len = r - l + 1;
+            if (len - max_freq > k) {
+                hash[s[l] - 'A']--;
+                l++;
+            }
+
+            max_len = max(max_len, r - l + 1);
+        }
+
+        return max_len;
+    }
+};
+
+// ========================================================
+// binary subarray with sum
+
+//BRUTE
+
+class Solution {
+public:
+    int numSubarraysWithSum(vector<int>& nums, int goal) {
+        int count=0;
+        for(int i=0;i<nums.size();i++){
+            int sum=0;
+            for(int j=i;j<nums.size();j++){
+                sum=sum+nums[j];
+                if(sum==goal){
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+};
+
+// OPTIMAL 
+class Solution {
+public:
+    int numSubarraysWithSum(vector<int>& nums, int goal) {
+        map<int, int> mp;
+        mp[0] = 1;
+        int presum = 0, cnt = 0;
+        
+        for (int i = 0; i < nums.size(); i++) {
+            presum += nums[i];
+            int remove = presum - goal;
+            if(mp.find(remove)!=mp.end()){
+              cnt += mp[remove];
+            }
+            mp[presum]++;
+        }
+        
+        return cnt;
+    }
+};
+
+
+// ======================================================
+// codewith mik
+// subarray with k different integers
+
+class Solution {
+public:
+int slidingwindow(vector<int>& nums,int k){
+    unordered_map<int,int>mp;
+    int n=nums.size();
+    int l=0;
+    int r=0;
+    int count=0;
+    while(r<n){
+        mp[nums[r]]++;
+
+while(mp.size()>k){
+    mp[nums[l]]--;
+    if(mp[nums[l]]==0){
+        mp.erase(nums[l]);
+    }
+    l++;
+}
+    count+=(r-l+1);
+    r++;
+    }
+return count;
+}
+ 
+    int subarraysWithKDistinct(vector<int>& nums, int k) {
+     return  slidingwindow(nums,k)- slidingwindow(nums,k-1);
+    }
+};
+
+// =================================================================================
+// leetcode 76
+
+class Solution {
+public:
+    string minWindow(string s, string t) {
+        if(t.size()>s.size()){
+            return "";
+        }
+        int count_req=t.size();
+
+        map<char,int>mp;
+        for(auto it :t){
+            mp[it]++;
+        }
+        int l=0;
+        int r=0;
+        int min_window=INT_MAX;
+        int start_i=0;
+
+    while(r<s.size()){
+        char ch=s[r];
+        if(mp[ch]>0)count_req--;
+        mp[ch]--;
+
+while(count_req==0){
+    int currwindowsize=r-l+1;
+    if(min_window>currwindowsize){
+        min_window=currwindowsize;
+        start_i=l;
+
+    }
+    mp[s[l]]++;
+    if(mp[s[l]]>0){
+        count_req++;
+    }
+    l++;
+}
+r++;
+
+    }
+    if(min_window==INT_MAX)return "";
+    else{
+        return s.substr(start_i,min_window);
+    }
+
+    }
+};
