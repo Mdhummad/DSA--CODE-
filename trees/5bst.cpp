@@ -389,6 +389,34 @@ public:
 // ====================================================================================================
 
 //  construct a BST from preorder traversal
+
+// BRUTE 
+class Solution {
+public:
+    // Function to insert a node into BST
+    TreeNode* insert(TreeNode* root, int val) {
+        if (root == nullptr) {
+            return new TreeNode(val);
+        }
+        if (val < root->val)
+            root->left = insert(root->left, val);
+        else
+            root->right = insert(root->right, val);
+        return root;
+    }
+
+    TreeNode* bstFromPreorder(vector<int>& preorder) {
+        if (preorder.empty()) return nullptr;
+
+        TreeNode* root = new TreeNode(preorder[0]);
+        for (int i = 1; i < preorder.size(); i++) {
+            insert(root, preorder[i]);
+        }
+        return root;
+    }
+};
+// ===========================================================================
+// OPTIMAL
 node* bstfrompreorder(vector<int>& a){
 int i=0;
 return buildtree(a,i,INT_MAX);
@@ -402,6 +430,8 @@ node* buildtree(vector<int>& a, int& i, int bound){
     return root;
     
 }
+// TIME COMPLEXITY=O(N)
+// ===================================================================================================
 
 // inorder succesor in a BST
 node* inordersuccesor(node* root, node* p){
@@ -420,91 +450,180 @@ return succ;
 }
 
 
-// TWO SUM IN BST
-// BRUTE FORCE SOL 
-//  FIND INORDER TRAVERSAL AND STORE IT IN A VECTOR AND FIND SUM  USING TWO  POINTER
-
-
-
-
-
-
-
-
-
-};
-
-
-
+// =====================================================================================================
 // BST iterator
 
-class BSTiterator{
-private:
-stack<node*> st;
+class BSTIterator {
+    stack<TreeNode*>st;
 public:
-BSTiterator(node* root) {
-    pushLeft(root);
+
+void push(TreeNode* root){
+TreeNode* curr=root;
+while(curr!=nullptr){
+    st.push(curr);
+    curr=curr->left;
 }
 
-bool hasnext(){
-    return !st.empty();
 }
-
-int next(){
-    node* curr = st.top();
-    st.pop();
-    pushLeft(curr->right);
-    return curr->val;
-}
-
-void pushLeft(node* root) {
-    while (root) {
-        st.push(root);
-        root = root->left;
+    BSTIterator(TreeNode* root) {
+        push(root);
     }
-}
-
-
-
+    
+    int next() {
+        TreeNode* temp=st.top();
+        st.pop();
+        push(temp->right);
+        return temp->val;
+    }
+    
+    bool hasNext() {
+    return   !st.empty();
+    }
 };
 
 
-
-
-
-
-
-
-
-int main() {
-    BST tree;
-    tree.root = tree.insertNode(tree.root, 10);
-    tree.root = tree.insertNode(tree.root, 5);
-    tree.root = tree.insertNode(tree.root, 15);
-
-    cout << "Inorder Traversal: ";
-    tree.inorderTraversal(tree.root);
-    cout << endl;
-
-    int key = 5;
-    auto result = tree.search(key);
-// Node* result = tree.search(key); // ❌ Error in main(): 'Node' not defined in global scope
-
-
-    if (result)
-        cout << "Found: " << result->data << endl;
-    else
-        cout << "Not found" << endl;
-
-
-
-    auto minNode = tree.findMin();
-    auto maxNode = tree.findMax();
-
-    if (minNode) cout << "Min: " << minNode->data << endl;
-    if (maxNode) cout << "Max: " << maxNode->data << endl;
-
-
-
-    return 0;
+// =============================================================================
+// Two sum in a bst
+// One aproach for this is to store inorder traversal in an array and then find two sum,(but it is somehow more complex)
+class Bstiterator{
+    stack<TreeNode* >st;
+    bool reverse=true;
+public:
+void push(TreeNode* root){
+    TreeNode* curr=root;
+    while(curr!=nullptr){
+        st.push(curr);
+        if(reverse==true){
+            curr=curr->right;
+        }
+        else{
+            curr=curr->left;
+        }
+    }
 }
+Bstiterator(TreeNode* root,bool Isreverse){
+    reverse=Isreverse;
+    push(root);
+}
+int Next(){
+    TreeNode* temp=st.top();
+    st.pop();
+    if(!reverse)push(temp->right);
+    else push(temp->left);
+    return temp->val;
+}
+
+} ;
+class Solution {
+public:
+    bool findTarget(TreeNode* root, int k) {
+     if(root==nullptr)return false;
+
+        Bstiterator l(root,false);
+        Bstiterator r(root,true);
+
+    int i=l.Next();
+    int j=r.Next();
+    while(i<j){
+        if(i+j==k)return true;
+        else if(i+j<k)i=l.Next();
+        else j=r.Next();
+    }
+return false;
+    }
+};
+
+
+// ==================================================================================
+
+// RECOVER BINARY SEARCH TREE
+class Solution {
+public:
+TreeNode* first=nullptr;
+TreeNode* middle=nullptr;
+TreeNode* prev=new TreeNode(INT_MIN);
+TreeNode* last=nullptr;
+void inoreder(TreeNode* root){
+    if(root==nullptr)return ;
+    inoreder(root->left);
+    if(prev!=nullptr && root->val<prev->val){
+        if(first==nullptr){
+            first=prev;
+            middle=root;
+        }
+        else{
+            last=root;
+        }
+    }
+    prev=root;
+    inoreder(root->right);
+}
+    void recoverTree(TreeNode* root) {
+        if(root==nullptr)return ;
+        inoreder(root);
+        if(first!=nullptr && last!=nullptr)swap(first->val,last->val);
+        else if(first!=nullptr && middle!=nullptr)swap(first->val,middle->val);
+    }
+};
+
+// =========================================================
+//LARGEST BST IN BINARY TREE
+// =======================================================================
+// LARGEST BST IN AA BINARY TREE
+
+// Brute force approach
+// go on every node and use validate a bst code
+// but TC would be O(n2)
+
+
+#include <bits/stdc++.h>
+using namespace std;
+
+// Structure for tree node
+struct TreeNode {
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+};
+
+// Helper class to store information for each subtree
+class NodeValue {
+public:
+    int minNode, maxNode, maxSize;
+    NodeValue(int minNode, int maxNode, int maxSize) {
+        this->minNode = minNode;
+        this->maxNode = maxNode;
+        this->maxSize = maxSize;
+    }
+};
+
+class Solution {
+public:
+    NodeValue largestBSTSubtreeHelper(TreeNode* root) {
+        // Base case: An empty tree is a BST of size 0
+        if (!root)
+            return NodeValue(INT_MAX, INT_MIN, 0);
+
+        // Recursively get values from left and right subtrees
+        auto left = largestBSTSubtreeHelper(root->left);
+        auto right = largestBSTSubtreeHelper(root->right);
+
+        // Check if current subtree is a valid BST
+        if (left.maxNode < root->val && root->val < right.minNode) {
+            // It's a valid BST
+            return NodeValue(
+                min(root->val, left.minNode),
+                max(root->val, right.maxNode),
+                left.maxSize + right.maxSize + 1
+            );
+        }
+
+        // Otherwise, return invalid BST markers
+        return NodeValue(INT_MIN, INT_MAX, max(left.maxSize, right.maxSize));
+    }
+
+    int largestBSTSubtree(TreeNode* root) {
+        return largestBSTSubtreeHelper(root).maxSize;
+    }
+};

@@ -39,6 +39,23 @@ int main() {
 // LONGEST SUBARRAY (WITH SOME CONDITION)
 // BRUTE FORCE APPROACH WILL BE N^2 ==>USING 2 LOOPS
 
+int max_len_subarray(vector<int> nums, int k){
+    int n=nums.size();
+    int max_length=0;
+    for(int i=0;i<n;i++){
+        int sum=0;
+        for(int j=i;j<n;j++){
+            sum+=nums[j];
+            if(sum=k){
+                max_len=max(max_len,j-i+1);
+                
+            }
+            else if(sum>k)break;
+        }
+    }
+    return max_len;
+}
+
 // BETTER APPROACH WOULD BE USING 2 POINTERS
 /*
 r(right)--> that will expand
@@ -152,7 +169,7 @@ int max_len_subarray(vector<int> nums, int k) {
 // MAXIMUM POINT YOU CAN OBTAIN FROM CARDS
 
 
-/*
+
 class Solution {
 public:
     int maxScore(vector<int>& cardPoints, int k) {
@@ -189,9 +206,9 @@ return max_sum;
     }
 };
 
-*/
+
 // ============================================================================================
-// leetcode 3 
+// leetcode 3   (longest substring without repeating character)
 
 //BRUTE FORCE
 int lengthOfLongestSubstring(string s) {
@@ -239,7 +256,9 @@ public:
 };
 
 // =====================================================================================
-// maximum number of ones
+// (leetcode 1004)maximum number of ones part 3
+
+// we change this problem to finding longest subarray with zeroes as k
 
 // Brute force
   int longestOnes(vector<int>& nums, int k) {
@@ -275,15 +294,37 @@ public:
                 if (nums[l] == 0) zeroes--;
                 l++;
             }
-
+if(zeroes<=k){
             max_len = max(max_len, r - l + 1);
-            r++;
+            r++;}
         }
 
         return max_len;
     }
 };
+// MORE OPTIMAL
+class Solution {
+public:
+    int longestOnes(vector<int>& nums, int k) {
+        int n = nums.size();
+        int l = 0, r = 0;
+        int zeroes = 0, max_len = 0;
 
+        while (r < n) {
+            if (nums[r] == 0) zeroes++;
+
+            if(zeroes > k) {
+                if (nums[l] == 0) zeroes--;
+                l++;
+            }
+if(zeroes<=k){
+            max_len = max(max_len, r - l + 1);
+            r++;}
+        }
+
+        return max_len;
+    }
+};
 //====================================================================================================
 // Fruits into baskets
 // max length subarray with at most 2 type of number
@@ -333,8 +374,33 @@ int fruit_in_basket(vector<int> nums, int n) {
     return max_len;
 }
 
+// more optimal
+int fruit_in_basket(vector<int> nums, int n) {
+    int max_len = 0;
+    int l = 0, r = 0;
+    map<int, int> mp;
+
+    while (r < n) {
+        mp[nums[r]]++;
+
+        if (mp.size() > 2) {
+            mp[nums[l]]--;
+            if (mp[nums[l]] == 0)
+                mp.erase(nums[l]);
+            l++;
+        }
+        if(mp.size()<=k){
+        max_len = max(max_len, r - l + 1);}
+        r++;
+    }
+
+    return max_len;
+}
+
 //==================================================================================
 // longest substring with atmost k distinct character
+
+// same as abbove
 // =======================================================================================
 // number of substring containing all 3 char
 
@@ -375,6 +441,26 @@ public:
     return count;
     }
 };
+
+// MORE OPTIMAL (WITHOUT RATTA) DONE FROM CODE WITH MIK
+// class Solution {
+// public:
+//     int numberOfSubstrings(string s) {
+//         int n=s.size();
+//         int count=0;
+//          vector<int>hash(3,-1);
+//         int i=0;
+//         int j=0;
+//         while(j<n){
+//           hash[s[j]-'a']++;
+//           j++;
+
+
+
+//         }
+//     return count;
+//     }
+// };
 // ===========================================================================
 // LEETCODE 424. Longest Repeating Character Replacement
 
@@ -558,3 +644,6 @@ r++;
 
     }
 };
+
+
+
