@@ -1,649 +1,680 @@
-// TOTAL NUMBER OF SUBARRAY ENDING AT J==(J-I+1)
+// // TOTAL NUMBER OF SUBARRAY ENDING AT J==(J-I+1)
 
-// TYPE OF PROBLEM IN 2 POINTER AND SLIDING WINDOW PROBLEM
-// 1)CONSTANT WINDOW
-// 2)LONGEST SUBARRAY
-// 3)NUMBER OF SUBARRAY
-// 4)SHORTEST MINIMUM WINDOW WITH SOME CONDITION
+// // TYPE OF PROBLEM IN 2 POINTER AND SLIDING WINDOW PROBLEM
+// // 1)CONSTANT WINDOW
+// // 2)LONGEST SUBARRAY
+// // 3)NUMBER OF SUBARRAY
+// // 4)SHORTEST MINIMUM WINDOW WITH SOME CONDITION
 
-// ============================================================================
-// 1)constant windoe
-#include <bits/stdc++.h>
-using namespace std;
+// // ============================================================================
+// // 1)constant windoe
+// #include <bits/stdc++.h>
+// using namespace std;
 
-int main() {
-    vector<int> arr = {2, 1, 5, 1, 3, 2};
-    int n = arr.size();
-    int k = 3;
+// int main() {
+//     vector<int> arr = {2, 1, 5, 1, 3, 2};
+//     int n = arr.size();
+//     int k = 3;
 
-    int l = 0, r = k - 1;
-    int sum = 0;
+//     int l = 0, r = k - 1;
+//     int sum = 0;
 
-    // compute sum of first window
-    for (int i = 0; i < k; i++)
-        sum += arr[i];
+//     // compute sum of first window
+//     for (int i = 0; i < k; i++)
+//         sum += arr[i];
 
-    int maxSum = sum;
+//     int maxSum = sum;
 
-    while (r < n - 1) {
-        sum = sum - arr[l];  // remove old left
-        l++;                 // move left
-        r++;                 // move right
-        sum = sum + arr[r];  // add new right
-        maxSum = max(maxSum, sum);
-    }
+//     while (r < n - 1) {
+//         sum = sum - arr[l];  // remove old left
+//         l++;                 // move left
+//         r++;                 // move right
+//         sum = sum + arr[r];  // add new right
+//         maxSum = max(maxSum, sum);
+//     }
 
-    cout << "Maximum sum of subarray of size " << k << " = " << maxSum << endl;
-}
-// ===============================================================================================
-// LONGEST SUBARRAY (WITH SOME CONDITION)
-// BRUTE FORCE APPROACH WILL BE N^2 ==>USING 2 LOOPS
+//     cout << "Maximum sum of subarray of size " << k << " = " << maxSum << endl;
+// }
+// // ===============================================================================================
+// // LONGEST SUBARRAY (WITH SOME CONDITION)
+// // BRUTE FORCE APPROACH WILL BE N^2 ==>USING 2 LOOPS
 
-int max_len_subarray(vector<int> nums, int k){
-    int n=nums.size();
-    int max_length=0;
-    for(int i=0;i<n;i++){
-        int sum=0;
-        for(int j=i;j<n;j++){
-            sum+=nums[j];
-            if(sum=k){
-                max_len=max(max_len,j-i+1);
+// int max_len_subarray(vector<int> nums, int k){
+//     int n=nums.size();
+//     int max_length=0;
+//     for(int i=0;i<n;i++){
+//         int sum=0;
+//         for(int j=i;j<n;j++){
+//             sum+=nums[j];
+//             if(sum=k){
+//                 max_len=max(max_len,j-i+1);
                 
-            }
-            else if(sum>k)break;
-        }
-    }
-    return max_len;
-}
+//             }
+//             else if(sum>k)break;
+//         }
+//     }
+//     return max_len;
+// }
 
-// BETTER APPROACH WOULD BE USING 2 POINTERS
-/*
-r(right)--> that will expand
-l(left)--> that will 
-*/ 
+// // BETTER APPROACH WOULD BE USING 2 POINTERS
+// /*
+// r(right)--> that will expand
+// l(left)--> that will 
+// */ 
 
-// PSUEDO CODE
-// below code is to find max length subarray with sum =k
-int max_len_subarray(vector<int> nums, int k) {
-    int l = 0, r = 0;
-    int sum = 0;
-    int maxlength = 0;
-    int n = nums.size();
+// // PSUEDO CODE
+// // below code is to find max length subarray with sum =k
+// int max_len_subarray(vector<int> nums, int k) {
+//     int l = 0, r = 0;
+//     int sum = 0;
+//     int maxlength = 0;
+//     int n = nums.size();
 
-    while (r < n) {
-        sum += nums[r];   // add current element
+//     while (r < n) {
+//         sum += nums[r];   // add current element
 
-        if (sum <= k) {   // valid window
-            maxlength = max(maxlength, r - l + 1);
-        }
-        else if (sum > k) {  // shrink window
-            sum -= nums[l];
-            l++;
-        }
+//         if (sum <= k) {   // valid window
+//             maxlength = max(maxlength, r - l + 1);
+//         }
+//         else if (sum > k) {  // shrink window
+//             sum -= nums[l];
+//             l++;
+//         }
 
-        r++;  // expand right pointer
-    }
+//         r++;  // expand right pointer
+//     }
 
-    return maxlength;
-}
-
-
-// OR USE WHILE LOOP INSTAD OF IF STATEMENT
+//     return maxlength;
+// }
 
 
-
-int max_len_subarray(vector<int> nums, int k) {
-    int l = 0, r = 0;
-    int sum = 0;
-    int maxlength = 0;
-    int n = nums.size();
-
-    while (r < n) {
-        sum += nums[r];
-
-        // Shrink window until sum <= k
-        while (sum > k && l <= r) {
-            sum -= nums[l];
-            l++;
-        }
-
-        // Now sum <= k, update maximum length
-        if (sum <= k) {
-            maxlength = max(maxlength, r - l + 1);
-        }
-
-        r++;
-    }
-
-    return maxlength;
-}
+// // OR USE WHILE LOOP INSTAD OF IF STATEMENT
 
 
-// TIME COMPLEXITY==O(2N)
-// ===================================================================
-// SEE VIDEO ONCE
-//OPTIMAL SOLUTION==> APPROACH IS TO KEEP WINDOW SIZE TO THE VALUE THAT IS ALLOTED TO MAXLENGTH
-// SO TO ABOVE CODE WE JUST ADD A IF STATEMENT INSTEAD OF WHILE STATEMENT
 
-int max_len_subarray(vector<int> nums, int k) {
-    int l = 0, r = 0;
-    int sum = 0;
-    int maxlength = 0;
-    int n = nums.size();
+// int max_len_subarray(vector<int> nums, int k) {
+//     int l = 0, r = 0;
+//     int sum = 0;
+//     int maxlength = 0;
+//     int n = nums.size();
 
-    while (r < n) {
-        sum += nums[r];   // add current element
-       if (sum > k) {  // shrink window
-            sum -= nums[l];
-            l++;
-        }
+//     while (r < n) {
+//         sum += nums[r];
+
+//         // Shrink window until sum <= k
+//         while (sum > k && l <= r) {
+//             sum -= nums[l];
+//             l++;
+//         }
+
+//         // Now sum <= k, update maximum length
+//         if (sum <= k) {
+//             maxlength = max(maxlength, r - l + 1);
+//         }
+
+//         r++;
+//     }
+
+//     return maxlength;
+// }
+
+
+// // TIME COMPLEXITY==O(2N)
+// // ===================================================================
+// // SEE VIDEO ONCE
+// //OPTIMAL SOLUTION==> APPROACH IS TO KEEP WINDOW SIZE TO THE VALUE THAT IS ALLOTED TO MAXLENGTH
+// // SO TO ABOVE CODE WE JUST ADD A IF STATEMENT INSTEAD OF WHILE STATEMENT
+
+// int max_len_subarray(vector<int> nums, int k) {
+//     int l = 0, r = 0;
+//     int sum = 0;
+//     int maxlength = 0;
+//     int n = nums.size();
+
+//     while (r < n) {
+//         sum += nums[r];   // add current element
+//        if (sum > k) {  // shrink window
+//             sum -= nums[l];
+//             l++;
+//         }
       
-       else  if (sum <= k) {   // valid window
-            maxlength = max(maxlength, r - l + 1);
-        }
+//        else  if (sum <= k) {   // valid window
+//             maxlength = max(maxlength, r - l + 1);
+//         }
       
 
-        r++;  // expand right pointer
-    }
+//         r++;  // expand right pointer
+//     }
 
-    return maxlength;
-}
-
-
-// TC=O(N)
+//     return maxlength;
+// }
 
 
-
-// ===================================================================================================
-// NUMBER OF SUBARRAY WITH SOME CONDITION\
-
-// WILL BE SOLVED USING PATTER 2
-
-// =====================================================================
-// SHORTEST MINIMUM WINDOW WITH SOME CONDITION7
-
-// WILL BE SOLVED BY PATTERN 2
-
-// ==================================================================================================================
-
-// MAXIMUM POINT YOU CAN OBTAIN FROM CARDS
+// // TC=O(N)
 
 
 
-class Solution {
-public:
-    int maxScore(vector<int>& cardPoints, int k) {
-        int n=cardPoints.size();
-        int sum=0;
-    int max_sum;
-    int l_sum=0;
-        if(n==k){
-            for(auto it: cardPoints){
-                sum+=it;
+// // ===================================================================================================
+// // NUMBER OF SUBARRAY WITH SOME CONDITION\
+
+// // WILL BE SOLVED USING PATTER 2
+
+// // =====================================================================
+// // SHORTEST MINIMUM WINDOW WITH SOME CONDITION7
+
+// // WILL BE SOLVED BY PATTERN 2
+
+// // ==================================================================================================================
+
+// // MAXIMUM POINT YOU CAN OBTAIN FROM CARDS
+
+
+
+// class Solution {
+// public:
+//     int maxScore(vector<int>& cardPoints, int k) {
+//         int n=cardPoints.size();
+//         int sum=0;
+//     int max_sum;
+//     int l_sum=0;
+//         if(n==k){
+//             for(auto it: cardPoints){
+//                 sum+=it;
                 
-            }
-            return sum;
-        }
+//             }
+//             return sum;
+//         }
 
-for(int i=0;i<k;i++){
-    l_sum+=cardPoints[i];
+// for(int i=0;i<k;i++){
+//     l_sum+=cardPoints[i];
    
-}  
-max_sum=l_sum;      
-int r_pointr=n-1;
+// }  
+// max_sum=l_sum;      
+// int r_pointr=n-1;
 
-for(int i=k-1;i>=0;i--){
+// for(int i=k-1;i>=0;i--){
    
-    l_sum-=cardPoints[i];
-    l_sum+=cardPoints[r_pointr];
-    max_sum=max(max_sum,l_sum);
-    r_pointr--;
-    // if(r_pointr<0)break;
-}
+//     l_sum-=cardPoints[i];
+//     l_sum+=cardPoints[r_pointr];
+//     max_sum=max(max_sum,l_sum);
+//     r_pointr--;
+//     // if(r_pointr<0)break;
+// }
  
-return max_sum;
+// return max_sum;
 
-    }
-};
-
-
-// ============================================================================================
-// leetcode 3   (longest substring without repeating character)
-
-//BRUTE FORCE
-int lengthOfLongestSubstring(string s) {
-    int n = s.size();
-    int maxLen = 0;
-
-    for (int i = 0; i < n; i++) {
-        vector<int> hash(256, 0); // frequency map for each character
-
-        for (int j = i; j < n; j++) {
-            int x = s[j];
-            if (hash[x] == 1)  // duplicate found
-                break;
-
-            hash[x] = 1; // mark as seen
-            maxLen = max(maxLen, j - i + 1);
-        }
-    }
-    return maxLen;
-}
+//     }
+// };
 
 
-// OPTIMAL
+// // ============================================================================================
+// // leetcode 3   (longest substring without repeating character)
 
-class Solution {
-public:
-    int lengthOfLongestSubstring(string s) {
-        int n = s.size();
-        int l = 0, r = 0;
-        int max_length = 0;
-        map<char, int> freq;
+// //BRUTE FORCE
+// int lengthOfLongestSubstring(string s) {
+//     int n = s.size();
+//     int maxLen = 0;
 
-        while (r < n) {
-            if (freq.find(s[r]) != freq.end() && freq[s[r]] >= l) {
-                l = freq[s[r]] + 1;
-            }
+//     for (int i = 0; i < n; i++) {
+//         vector<int> hash(256, 0); // frequency map for each character
 
-            freq[s[r]] = r;
-            max_length = max(max_length, r - l + 1);
-            r++;
-        }
+//         for (int j = i; j < n; j++) {
+//             int x = s[j];
+//             if (hash[x] == 1)  // duplicate found
+//                 break;
 
-        return max_length;
-    }
-};
-
-// =====================================================================================
-// (leetcode 1004)maximum number of ones part 3
-
-// we change this problem to finding longest subarray with zeroes as k
-
-// Brute force
-  int longestOnes(vector<int>& nums, int k) {
-        int n = nums.size();
-        int maxLen = 0;
-
-        for (int i = 0; i < n; i++) {
-            int zeroCount = 0;
-            for (int j = i; j < n; j++) {
-                if (nums[j] == 0)
-                    zeroCount++;
-
-                if (zeroCount > k)
-                    break;
-
-                maxLen = max(maxLen, j - i + 1);
-            }
-        }
-        return maxLen;
-    }
-// OPRIMAL
-class Solution {
-public:
-    int longestOnes(vector<int>& nums, int k) {
-        int n = nums.size();
-        int l = 0, r = 0;
-        int zeroes = 0, max_len = 0;
-
-        while (r < n) {
-            if (nums[r] == 0) zeroes++;
-
-            while (zeroes > k) {
-                if (nums[l] == 0) zeroes--;
-                l++;
-            }
-if(zeroes<=k){
-            max_len = max(max_len, r - l + 1);
-            r++;}
-        }
-
-        return max_len;
-    }
-};
-// MORE OPTIMAL
-class Solution {
-public:
-    int longestOnes(vector<int>& nums, int k) {
-        int n = nums.size();
-        int l = 0, r = 0;
-        int zeroes = 0, max_len = 0;
-
-        while (r < n) {
-            if (nums[r] == 0) zeroes++;
-
-            if(zeroes > k) {
-                if (nums[l] == 0) zeroes--;
-                l++;
-            }
-if(zeroes<=k){
-            max_len = max(max_len, r - l + 1);
-            r++;}
-        }
-
-        return max_len;
-    }
-};
-//====================================================================================================
-// Fruits into baskets
-// max length subarray with at most 2 type of number
+//             hash[x] = 1; // mark as seen
+//             maxLen = max(maxLen, j - i + 1);
+//         }
+//     }
+//     return maxLen;
+// }
 
 
-// BRUTE FORCE
-int fruit_in_basket(vector<int> nums, int n) {
-    int max_len = 0;
+// // OPTIMAL
 
-    for (int i = 0; i < n; i++) {
-        set<int> st;
-        for (int j = i; j < n; j++) {
-            st.insert(nums[j]);
+// class Solution {
+// public:
+//     int lengthOfLongestSubstring(string s) {
+//         int n = s.size();
+//         int l = 0, r = 0;
+//         int max_length = 0;
+//         map<char, int> freq;
 
-            if (st.size() > 2)  // more than 2 types of fruits
-                break;
+//         while (r < n) {
+//             if (freq.find(s[r]) != freq.end() && freq[s[r]] >= l) {
+//                 l = freq[s[r]] + 1;
+//             }
 
-            max_len = max(max_len, j - i + 1);
-        }
-    }
+//             freq[s[r]] = r;
+//             max_length = max(max_length, r - l + 1);
+//             r++;
+//         }
 
-    return max_len;
-}
+//         return max_length;
+//     }
+// };
+
+// // =====================================================================================
+// // (leetcode 1004)maximum number of ones part 3
+
+// // we change this problem to finding longest subarray with zeroes as k
+
+// // Brute force
+//   int longestOnes(vector<int>& nums, int k) {
+//         int n = nums.size();
+//         int maxLen = 0;
+
+//         for (int i = 0; i < n; i++) {
+//             int zeroCount = 0;
+//             for (int j = i; j < n; j++) {
+//                 if (nums[j] == 0)
+//                     zeroCount++;
+
+//                 if (zeroCount > k)
+//                     break;
+
+//                 maxLen = max(maxLen, j - i + 1);
+//             }
+//         }
+//         return maxLen;
+//     }
+// // OPRIMAL
+// class Solution {
+// public:
+//     int longestOnes(vector<int>& nums, int k) {
+//         int n = nums.size();
+//         int l = 0, r = 0;
+//         int zeroes = 0, max_len = 0;
+
+//         while (r < n) {
+//             if (nums[r] == 0) zeroes++;
+
+//             while (zeroes > k) {
+//                 if (nums[l] == 0) zeroes--;
+//                 l++;
+//             }
+// if(zeroes<=k){
+//             max_len = max(max_len, r - l + 1);
+//             r++;}
+//         }
+
+//         return max_len;
+//     }
+// };
+// // MORE OPTIMAL
+// class Solution {
+// public:
+//     int longestOnes(vector<int>& nums, int k) {
+//         int n = nums.size();
+//         int l = 0, r = 0;
+//         int zeroes = 0, max_len = 0;
+
+//         while (r < n) {
+//             if (nums[r] == 0) zeroes++;
+
+//             if(zeroes > k) {
+//                 if (nums[l] == 0) zeroes--;
+//                 l++;
+//             }
+// if(zeroes<=k){
+//             max_len = max(max_len, r - l + 1);
+//             r++;}
+//         }
+
+//         return max_len;
+//     }
+// };
+// //====================================================================================================
+// // Fruits into baskets
+// // max length subarray with at most 2 type of number
 
 
-// OPTIMAL
+// // BRUTE FORCE
+// int fruit_in_basket(vector<int> nums, int n) {
+//     int max_len = 0;
 
-int fruit_in_basket(vector<int> nums, int n) {
-    int max_len = 0;
-    int l = 0, r = 0;
-    map<int, int> mp;
+//     for (int i = 0; i < n; i++) {
+//         set<int> st;
+//         for (int j = i; j < n; j++) {
+//             st.insert(nums[j]);
 
-    while (r < n) {
-        mp[nums[r]]++;
+//             if (st.size() > 2)  // more than 2 types of fruits
+//                 break;
 
-        while (mp.size() > 2) {
-            mp[nums[l]]--;
-            if (mp[nums[l]] == 0)
-                mp.erase(nums[l]);
-            l++;
-        }
-        if(mp.size()<=k){
-        max_len = max(max_len, r - l + 1);}
-        r++;
-    }
+//             max_len = max(max_len, j - i + 1);
+//         }
+//     }
 
-    return max_len;
-}
-
-// more optimal
-int fruit_in_basket(vector<int> nums, int n) {
-    int max_len = 0;
-    int l = 0, r = 0;
-    map<int, int> mp;
-
-    while (r < n) {
-        mp[nums[r]]++;
-
-        if (mp.size() > 2) {
-            mp[nums[l]]--;
-            if (mp[nums[l]] == 0)
-                mp.erase(nums[l]);
-            l++;
-        }
-        if(mp.size()<=k){
-        max_len = max(max_len, r - l + 1);}
-        r++;
-    }
-
-    return max_len;
-}
-
-//==================================================================================
-// longest substring with atmost k distinct character
-
-// same as abbove
-// =======================================================================================
-// number of substring containing all 3 char
-
-// BRUTE
-int countSubstrings(string s) {
-    int n = s.size();
-    int count = 0;
-
-    for (int i = 0; i < n; i++) {
-        vector<int> hash(3, 0); // for 'a', 'b', 'c'
-        for (int j = i; j < n; j++) {
-            hash[s[j] - 'a']++;
-
-            // check if all three characters are present
-            if (hash[0] > 0 && hash[1] > 0 && hash[2] > 0)
-                count++;
-        }
-    }
-
-    return count;
-}
+//     return max_len;
+// }
 
 
-//OPTIMAL
-class Solution {
-public:
-    int numberOfSubstrings(string s) {
-        int n=s.size();
-        int count=0;
-        vector<int>hash(3,-1);
-    for(int i=0;i<n;i++){
-        hash[s[i]-'a']=i;
-        if(hash[0]!=-1 && hash[1]!=-1 && hash[2]!=-1){
-         count += 1 + min({hash[0], hash[1], hash[2]}); 
-    }
+// // OPTIMAL
 
-    }
-    return count;
-    }
-};
+// int fruit_in_basket(vector<int> nums, int n) {
+//     int max_len = 0;
+//     int l = 0, r = 0;
+//     map<int, int> mp;
 
-// MORE OPTIMAL (WITHOUT RATTA) DONE FROM CODE WITH MIK
+//     while (r < n) {
+//         mp[nums[r]]++;
+
+//         while (mp.size() > 2) {
+//             mp[nums[l]]--;
+//             if (mp[nums[l]] == 0)
+//                 mp.erase(nums[l]);
+//             l++;
+//         }
+//         if(mp.size()<=k){
+//         max_len = max(max_len, r - l + 1);}
+//         r++;
+//     }
+
+//     return max_len;
+// }
+
+// // more optimal
+// int fruit_in_basket(vector<int> nums, int n) {
+//     int max_len = 0;
+//     int l = 0, r = 0;
+//     map<int, int> mp;
+
+//     while (r < n) {
+//         mp[nums[r]]++;
+
+//         if (mp.size() > 2) {
+//             mp[nums[l]]--;
+//             if (mp[nums[l]] == 0)
+//                 mp.erase(nums[l]);
+//             l++;
+//         }
+//         if(mp.size()<=k){
+//         max_len = max(max_len, r - l + 1);}
+//         r++;
+//     }
+
+//     return max_len;
+// }
+
+// //==================================================================================
+// // longest substring with atmost k distinct character
+
+// // same as abbove
+// // =======================================================================================
+// // number of substring containing all 3 char
+
+// // BRUTE
+// int countSubstrings(string s) {
+//     int n = s.size();
+//     int count = 0;
+
+//     for (int i = 0; i < n; i++) {
+//         vector<int> hash(3, 0); // for 'a', 'b', 'c'
+//         for (int j = i; j < n; j++) {
+//             hash[s[j] - 'a']++;
+
+//             // check if all three characters are present
+//             if (hash[0] > 0 && hash[1] > 0 && hash[2] > 0)
+//                 count++;
+//         }
+//     }
+
+//     return count;
+// }
+
+
+// //OPTIMAL
 // class Solution {
 // public:
 //     int numberOfSubstrings(string s) {
 //         int n=s.size();
 //         int count=0;
-//          vector<int>hash(3,-1);
-//         int i=0;
-//         int j=0;
-//         while(j<n){
-//           hash[s[j]-'a']++;
-//           j++;
+//         vector<int>hash(3,-1);
+//     for(int i=0;i<n;i++){
+//         hash[s[i]-'a']=i;
+//         if(hash[0]!=-1 && hash[1]!=-1 && hash[2]!=-1){
+//          count += 1 + min({hash[0], hash[1], hash[2]}); 
+//     }
 
-
-
-//         }
+//     }
 //     return count;
 //     }
 // };
-// ===========================================================================
-// LEETCODE 424. Longest Repeating Character Replacement
+
+// // MORE OPTIMAL (WITHOUT RATTA) DONE FROM CODE WITH MIK
+// // class Solution {
+// // public:
+// //     int numberOfSubstrings(string s) {
+// //         int n=s.size();
+// //         int count=0;
+// //          vector<int>hash(3,-1);
+// //         int i=0;
+// //         int j=0;
+// //         while(j<n){
+// //           hash[s[j]-'a']++;
+// //           j++;
 
 
-class Solution {
-public:
-    int characterReplacement(string s, int k) {
-        int max_len = 0;
-        int n = s.size();
 
-        for (int i = 0; i < n; i++) {
-            vector<int> hash(26, 0);
-            int max_f = 0;
-
-            for (int j = i; j < n; j++) {
-                hash[s[j] - 'A']++;
-                max_f = max(max_f, hash[s[j] - 'A']);
-
-                int changes = (j - i + 1) - max_f;
-                if (changes <= k) {
-                    max_len = max(max_len, j - i + 1);
-                } else {
-                    break;
-                }
-            }
-        }
-        return max_len;
-    }
-};
+// //         }
+// //     return count;
+// //     }
+// // };
+// // ===========================================================================
+// // LEETCODE 424. Longest Repeating Character Replacement
 
 
-// OPTIMAL
-class Solution {
-public:
-    int characterReplacement(string s, int k) {
-        int l = 0, max_len = 0;
-        vector<int> hash(26, 0);
+// class Solution {
+// public:
+//     int characterReplacement(string s, int k) {
+//         int max_len = 0;
+//         int n = s.size();
 
-        for (int r = 0; r < s.size(); r++) {
-            hash[s[r] - 'A']++;
+//         for (int i = 0; i < n; i++) {
+//             vector<int> hash(26, 0);
+//             int max_f = 0;
 
-            int max_freq = 0;
-            for (int c = 0; c < 26; c++)
-                max_freq = max(max_freq, hash[c]);
+//             for (int j = i; j < n; j++) {
+//                 hash[s[j] - 'A']++;
+//                 max_f = max(max_f, hash[s[j] - 'A']);
 
-            int len = r - l + 1;
-            if (len - max_freq > k) {
-                hash[s[l] - 'A']--;
-                l++;
-            }
+//                 int changes = (j - i + 1) - max_f;
+//                 if (changes <= k) {
+//                     max_len = max(max_len, j - i + 1);
+//                 } else {
+//                     break;
+//                 }
+//             }
+//         }
+//         return max_len;
+//     }
+// };
 
-            max_len = max(max_len, r - l + 1);
-        }
 
-        return max_len;
-    }
-};
+// // OPTIMAL
+// class Solution {
+// public:
+//     int characterReplacement(string s, int k) {
+//         int l = 0, max_len = 0;
+//         vector<int> hash(26, 0);
 
-// ========================================================
-// binary subarray with sum
+//         for (int r = 0; r < s.size(); r++) {
+//             hash[s[r] - 'A']++;
 
-//BRUTE
+//             int max_freq = 0;
+//             for (int c = 0; c < 26; c++)
+//                 max_freq = max(max_freq, hash[c]);
 
-class Solution {
-public:
-    int numSubarraysWithSum(vector<int>& nums, int goal) {
-        int count=0;
-        for(int i=0;i<nums.size();i++){
-            int sum=0;
-            for(int j=i;j<nums.size();j++){
-                sum=sum+nums[j];
-                if(sum==goal){
-                    count++;
-                }
-            }
-        }
-        return count;
-    }
-};
+//             int len = r - l + 1;
+//             if (len - max_freq > k) {
+//                 hash[s[l] - 'A']--;
+//                 l++;
+//             }
 
-// OPTIMAL 
-class Solution {
-public:
-    int numSubarraysWithSum(vector<int>& nums, int goal) {
-        map<int, int> mp;
-        mp[0] = 1;
-        int presum = 0, cnt = 0;
+//             max_len = max(max_len, r - l + 1);
+//         }
+
+//         return max_len;
+//     }
+// };
+
+// // ========================================================
+// // binary subarray with sum
+
+// //BRUTE
+
+// class Solution {
+// public:
+//     int numSubarraysWithSum(vector<int>& nums, int goal) {
+//         int count=0;
+//         for(int i=0;i<nums.size();i++){
+//             int sum=0;
+//             for(int j=i;j<nums.size();j++){
+//                 sum=sum+nums[j];
+//                 if(sum==goal){
+//                     count++;
+//                 }
+//             }
+//         }
+//         return count;
+//     }
+// };
+
+// // OPTIMAL 
+// class Solution {
+// public:
+//     int numSubarraysWithSum(vector<int>& nums, int goal) {
+//         map<int, int> mp;
+//         mp[0] = 1;
+//         int presum = 0, cnt = 0;
         
-        for (int i = 0; i < nums.size(); i++) {
-            presum += nums[i];
-            int remove = presum - goal;
-            if(mp.find(remove)!=mp.end()){
-              cnt += mp[remove];
-            }
-            mp[presum]++;
-        }
+//         for (int i = 0; i < nums.size(); i++) {
+//             presum += nums[i];
+//             int remove = presum - goal;
+//             if(mp.find(remove)!=mp.end()){
+//               cnt += mp[remove];
+//             }
+//             mp[presum]++;
+//         }
         
-        return cnt;
-    }
-};
+//         return cnt;
+//     }
+// };
 
 
-// ======================================================
-// codewith mik
-// subarray with k different integers
+// // ======================================================
+// // codewith mik
+// // subarray with k different integers
 
-class Solution {
-public:
-int slidingwindow(vector<int>& nums,int k){
-    unordered_map<int,int>mp;
-    int n=nums.size();
-    int l=0;
-    int r=0;
-    int count=0;
-    while(r<n){
-        mp[nums[r]]++;
+// class Solution {
+// public:
+// int slidingwindow(vector<int>& nums,int k){
+//     unordered_map<int,int>mp;
+//     int n=nums.size();
+//     int l=0;
+//     int r=0;
+//     int count=0;
+//     while(r<n){
+//         mp[nums[r]]++;
 
-while(mp.size()>k){
-    mp[nums[l]]--;
-    if(mp[nums[l]]==0){
-        mp.erase(nums[l]);
-    }
-    l++;
-}
-    count+=(r-l+1);
-    r++;
-    }
-return count;
-}
+// while(mp.size()>k){
+//     mp[nums[l]]--;
+//     if(mp[nums[l]]==0){
+//         mp.erase(nums[l]);
+//     }
+//     l++;
+// }
+//     count+=(r-l+1);
+//     r++;
+//     }
+// return count;
+// }
  
-    int subarraysWithKDistinct(vector<int>& nums, int k) {
-     return  slidingwindow(nums,k)- slidingwindow(nums,k-1);
-    }
-};
+//     int subarraysWithKDistinct(vector<int>& nums, int k) {
+//      return  slidingwindow(nums,k)- slidingwindow(nums,k-1);
+//     }
+// };
 
-// =================================================================================
-// leetcode 76
+// // =================================================================================
+// // leetcode 76
 
-class Solution {
-public:
-    string minWindow(string s, string t) {
-        if(t.size()>s.size()){
-            return "";
+// class Solution {
+// public:
+//     string minWindow(string s, string t) {
+//         if(t.size()>s.size()){
+//             return "";
+//         }
+//         int count_req=t.size();
+
+//         map<char,int>mp;
+//         for(auto it :t){
+//             mp[it]++;
+//         }
+//         int l=0;
+//         int r=0;
+//         int min_window=INT_MAX;
+//         int start_i=0;
+
+//     while(r<s.size()){
+//         char ch=s[r];
+//         if(mp[ch]>0)count_req--;
+//         mp[ch]--;
+
+// while(count_req==0){
+//     int currwindowsize=r-l+1;
+//     if(min_window>currwindowsize){
+//         min_window=currwindowsize;
+//         start_i=l;
+
+//     }
+//     mp[s[l]]++;
+//     if(mp[s[l]]>0){
+//         count_req++;
+//     }
+//     l++;
+// }
+// r++;
+
+//     }
+//     if(min_window==INT_MAX)return "";
+//     else{
+//         return s.substr(start_i,min_window);
+//     }
+
+//     }
+// };
+
+
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int largestSubarray(string s, int n) {
+    unordered_map<char, int> freq;
+    int left = 0, right = 0;
+    int maxLen = 0;
+
+    while (right < n) {
+        freq[s[right]]++;
+
+        // If more than 2 distinct characters, shrink window
+        while (freq.size() > 2) {
+            freq[s[left]]--;
+            if (freq[s[left]] == 0)
+                freq.erase(s[left]);
+            left++;
         }
-        int count_req=t.size();
 
-        map<char,int>mp;
-        for(auto it :t){
-            mp[it]++;
-        }
-        int l=0;
-        int r=0;
-        int min_window=INT_MAX;
-        int start_i=0;
-
-    while(r<s.size()){
-        char ch=s[r];
-        if(mp[ch]>0)count_req--;
-        mp[ch]--;
-
-while(count_req==0){
-    int currwindowsize=r-l+1;
-    if(min_window>currwindowsize){
-        min_window=currwindowsize;
-        start_i=l;
-
+        maxLen = max(maxLen, right - left + 1);
+        right++;
     }
-    mp[s[l]]++;
-    if(mp[s[l]]>0){
-        count_req++;
-    }
-    l++;
+    return maxLen;
 }
-r++;
 
-    }
-    if(min_window==INT_MAX)return "";
-    else{
-        return s.substr(start_i,min_window);
-    }
-
-    }
-};
-
-
-
+int main() {
+    string s;
+    cin >> s;
+    cout << largestSubarray(s, s.length());
+    return 0;
+}

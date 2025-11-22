@@ -1,3 +1,4 @@
+// inserting value at different index in stack
 #include<iostream>
 #include<stack>
 using namespace std;
