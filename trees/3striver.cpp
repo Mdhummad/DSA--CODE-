@@ -100,6 +100,9 @@ return inorder;
 
 
 
+
+
+
 // POST ORDER TRAVERSAL USING 2 STACKS
 vector<int> postorder_traversal(Node* root){
 stack<Node*> st1;

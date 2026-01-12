@@ -76,3 +76,33 @@ void reverseStack(stack<int> &s) {
 // ============================================
 //we can also reverse using a array
 // =========================================
+
+// ====================================================================
+// REVERSING A QUEUE 
+void reverseQueue(queue<int> &q) {
+    stack<int> st;
+
+    // Step 1: push queue elements into stack
+    while (!q.empty()) {
+        st.push(q.front());
+        q.pop();
+    }
+
+    // Step 2: pop stack elements back into queue
+    while (!st.empty()) {
+        q.push(st.top());
+        st.pop();
+    }
+}
+
+// WITHOUT EXTRA SPACE
+void reverseQueueRec(queue<int> &q) {
+    if (q.empty()) return;
+
+    int x = q.front();
+    q.pop();
+    reverseQueueRec(q);
+    q.push(x);
+}
+// =============================================================
+// REVERSING A QUEUE AND STACK UPTO K PLACES

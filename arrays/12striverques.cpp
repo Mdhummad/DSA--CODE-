@@ -26,6 +26,7 @@ OPTIMAL SOLUTION
 2)ITERATE THROUGH THE ARRAY AND UPDATE MAX IF CURRENT ELEMENT IS GREATER THAN MAX
 TIME COMPLEXITY :O(N)
 */
+
 // =================================================================================================
 
 // 2) SECOND LARGEST ELEMENT IN AN ARRAY
@@ -66,6 +67,7 @@ max2=arr[i];
 
 */
 
+
 // =================================================================================================
 
 // CHECK IF THE ARRAY IS SORTED OR NOT
@@ -83,6 +85,7 @@ void checksorted(int arr[], int n) {
     else
         cout << "Array is not sorted" << endl;
 }
+
 
 //=======================================================================================
 
@@ -103,6 +106,7 @@ public:
         return true;
     }
 };
+
 
 
 
@@ -155,6 +159,9 @@ void remove_duplicate(vector<int>& arr){
 SEEE WHY ARE WE RETURNING THE SIZE OF THE ARRAY (ASK GPT)
  }
 /*
+    I HAVE ONE MORE SOLUTION WITH THE HELP OF TWO POINTER AND IT IS ALSO COMPARITEVLY EASY
+
+
 ANS
 
 C++ arrays (or vectors) don't automatically shrink in size. So even after removing duplicates, the vector still physically has the same number of elements.
@@ -389,6 +396,7 @@ SPACE COMPLEXITY: O(N+M) //DUE TO RESULT VECTOR
 // }
 
 
+
 // =================================================================================================
 
 // intersection of two sorted array
@@ -538,6 +546,7 @@ void findmax1(vector<int>& arr) {
 */
 
 
+
 //=================================================================================================
 
 // FIND THE NUMBER OF PAIRS IN AN ARRAY THAT SUMS TO A GIVEN VALUE
@@ -647,27 +656,34 @@ void find_unique_xor(vector<int>& arr) {
 
 
 // =================================================================================================
-// FIND THE FIRST REPEATING ELEMENT IN AN ARRAY USING XOR
+// FIND THE FIRST REPEATING ELEMENT IN AN ARRAY \\
 
-/*
-void find_first_repeating(vector<int>& arr) {
-    int n = arr.size();
-    int xor_result = 0;
+void firstRepeating(vector<int>& arr) {
+    unordered_set<int> seen;
 
-    // Step 1: XOR all elements
-    for (int i = 0; i < n; i++) {
-        xor_result ^= arr[i];
-    }
-
-    // Step 2: Find the first repeating element
-    for (int i = 0; i < n; i++) {
-        if ((xor_result ^ arr[i]) == 0) {
-            cout << "The first repeating element is: " << arr[i] << endl;
+    for (int x : arr) {
+        if (seen.count(x)) {
+            cout << x;
             return;
         }
+        seen.insert(x);
     }
 }
 
+
+int firstrepeating(vector<int>& arr){
+    map<int,int> freq;
+    for(int i = 0; i < arr.size(); i++){
+        if(freq[arr[i]] > 0){
+            return arr[i];
+        }
+        freq[arr[i]]++;
+    }
+    return -1;
+}
+
+
+//both of approach are correct 
 // ==============================================================================================================
 
 //FIND THE LONGEST SUBARRAY WITH SUM k

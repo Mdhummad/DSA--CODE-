@@ -20,7 +20,7 @@ DEGREES IN A GRAPH == no. of edges attached to a nodes
 
 =======================================================
 IMP                                                   =
-TOTAL DEGREE OF A GRAPH =   2 * NO. OF EDGES IN A GRAPH  =
+TOTAL DEGREE OF A GRAPH =   d2 * NO. OF EDGES IN A GRAPH  =
 =======================================================
 
 INDEGREE=no. of incoming edges

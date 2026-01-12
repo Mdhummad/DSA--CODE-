@@ -23,7 +23,7 @@ struct Node
 class striver_EASY_solution
 {
 public:
-// DO MINIMUM DEPTH OF A BINARY TOO
+/ / DO MINIMUM DEPTH OF A BINARY TOO
     int maxheight_recursive(Node *root)
     {
         if (root == NULL)

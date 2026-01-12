@@ -29,7 +29,7 @@ int main() {
     for (int i = n - 1; i >= 0; i--) {
         while (!st.empty() && st.top() <= arr[i]) {
             st.pop();
-        }
+        } 
         if (!st.empty()) {
             next_greater[i] = st.top();
         }
@@ -43,6 +43,8 @@ int main() {
 
 
 space complexity :O(n)
+
+
 
 
 // =============================================
@@ -171,7 +173,7 @@ int main() {
 // Brute force 
 /*
 1)find leftmax and right max array
-2)then for each index apply(summation of ,im(leftmax,rightmax)-1)
+2)then for each index apply(summation of ,min(leftmax,rightmax)-arr[i]) only if both leftmax and right max is greater than arr[i]
 */
 class Solution {
 public:
@@ -189,7 +191,7 @@ public:
         rightMax[n - 1] = height[n - 1];
         for (int i = n - 2; i >= 0; i--) {
             rightMax[i] = max(rightMax[i + 1], height[i]);
-        }
+        }  
 
         int totalWater = 0;
         for (int i = 0; i < n; i++) {
@@ -243,7 +245,7 @@ public:
 // sum of subarray minimum
 
 // OPTIMAL SOLUTION 
-//MOST HARD STACK QUESTION
+
 
 class Solution {
 public:
@@ -333,3 +335,132 @@ public:
 };
 
 // ==========================================================
+// SUM OF SUBARRAY RANGES
+// leetcode 2104
+
+   class Solution {
+public:
+
+    vector<int> nextSmaller(vector<int>& arr) {
+        int n = arr.size();
+        vector<int> ans(n);
+        stack<int> st;
+
+        for(int i = n-1; i >= 0; i--) {
+            while(!st.empty() && arr[st.top()] > arr[i]) {
+                st.pop();
+            }
+            ans[i] = st.empty() ? n : st.top();
+            st.push(i);
+        }
+        return ans;
+    }
+
+    vector<int> prevSmaller(vector<int>& arr) {
+        int n = arr.size();
+        vector<int> ans(n);
+        stack<int> st;
+
+        for(int i = 0; i < n; i++) {
+            while(!st.empty() && arr[st.top()] >= arr[i]) {
+                st.pop();
+            }
+            ans[i] = st.empty() ? -1 : st.top();
+            st.push(i);
+        }
+        return ans;
+    }
+
+    vector<int> nextGreater(vector<int>& arr) {
+        int n = arr.size();
+        vector<int> ans(n);
+        stack<int> st;
+
+        for(int i = n-1; i >= 0; i--) {
+            while(!st.empty() && arr[st.top()] < arr[i]) {
+                st.pop();
+            }
+            ans[i] = st.empty() ? n : st.top();
+            st.push(i);
+        }
+        return ans;
+    }
+
+    vector<int> prevGreater(vector<int>& arr) {
+        int n = arr.size();
+        vector<int> ans(n);
+        stack<int> st;
+
+        for(int i = 0; i < n; i++) {
+            while(!st.empty() && arr[st.top()] <= arr[i]) {
+                st.pop();
+            }
+            ans[i] = st.empty() ? -1 : st.top();
+            st.push(i);
+        }
+        return ans;
+    }
+
+    long long subArrayRanges(vector<int>& nums) {
+        int n = nums.size();
+
+        vector<int> nsm = nextSmaller(nums);
+        vector<int> psm = prevSmaller(nums);
+
+        vector<int> nge = nextGreater(nums);
+        vector<int> pge = prevGreater(nums);
+
+        long long sumMin = 0, sumMax = 0;
+
+        for(int i = 0; i < n; i++) {
+            long long leftMin = i - psm[i];
+            long long rightMin = nsm[i] - i;
+            sumMin += (long long)nums[i] * leftMin * rightMin;
+
+            long long leftMax = i - pge[i];
+            long long rightMax = nge[i] - i;
+            sumMax += (long long)nums[i] * leftMax * rightMax;
+        }
+
+        return sumMax - sumMin;
+    }
+};
+
+// ======================================================================================
+// REMOVE K digit
+// leetcode 402
+
+class Solution {
+public:
+    string removeKdigits(string num, int k) {
+        string ans="";
+        int n=num.size();
+        stack<char>st;
+        for(int i=0;i<n;i++){
+            char ch=num[i];
+            while(!st.empty() && k>0 && ((st.top()-'0') > (ch-'0'))){
+                st.pop();
+                k=k-1;
+            }
+            st.push(ch);
+        }
+        while(k>0){
+            st.pop();
+            k--;
+        }
+        if(st.empty()) return "0";
+        while(!st.empty()){
+            ans+=st.top();
+            st.pop();
+        }
+        while(ans.size()!=0 && ans.back()=='0'){
+            ans.pop_back();
+        }
+        if(ans.empty()){
+            return "0";
+        }
+        reverse(ans.begin(),ans.end());
+        return ans;
+    }
+};
+// ==================================================
