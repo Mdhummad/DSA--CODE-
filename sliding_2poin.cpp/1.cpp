@@ -187,7 +187,6 @@
 
 // for(int i=0;i<k;i++){
 //     l_sum+=cardPoints[i];
-   
 // }  
 // max_sum=l_sum;      
 // int r_pointr=n-1;
@@ -442,25 +441,7 @@
 //     }
 // };
 
-// // MORE OPTIMAL (WITHOUT RATTA) DONE FROM CODE WITH MIK
-// // class Solution {
-// // public:
-// //     int numberOfSubstrings(string s) {
-// //         int n=s.size();
-// //         int count=0;
-// //          vector<int>hash(3,-1);
-// //         int i=0;
-// //         int j=0;
-// //         while(j<n){
-// //           hash[s[j]-'a']++;
-// //           j++;
 
-
-
-// //         }
-// //     return count;
-// //     }
-// // };
 // // ===========================================================================
 // // LEETCODE 424. Longest Repeating Character Replacement
 
@@ -677,4 +658,4 @@ int main() {
     cin >> s;
     cout << largestSubarray(s, s.length());
     return 0;
-}
+} 

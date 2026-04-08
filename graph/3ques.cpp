@@ -1,43 +1,44 @@
 // NUMBER OF PROVINCES
 class Solution {
 public:
-    void dfs(int node, vector<int> adj[], vector<int>& vis) {
+    void dfs(vector<int> adjlist[], vector<int>& vis, int node) {
         vis[node] = 1;
-        for (auto it : adj[node]) {
-            if (!vis[it]) {
-                dfs(it, adj, vis);
+
+        for (auto it : adjlist[node]) {
+            if (vis[it] == 0) {
+                dfs(adjlist, vis, it);
             }
         }
     }
 
     int findCircleNum(vector<vector<int>>& isConnected) {
-        int v = isConnected.size();              // number of nodes
-        vector<int> adj[v];                      // adjacency list
+        int n = isConnected.size();
 
-        // Convert adjacency matrix to adjacency list
-        for (int i = 0; i < v; i++) {
-            for (int j = 0; j < v; j++) {
+        vector<int> adjlist[n];   
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
                 if (isConnected[i][j] == 1 && i != j) {
-                    adj[i].push_back(j);
-                 adjls[i].push_back(j);
-                    adjls[j].push_back(i);
+                    adjlist[i].push_back(j);
+                    adjlist[j].push_back(i);
                 }
             }
         }
 
-        vector<int> vis(v, 0);
+        vector<int> vis(n, 0);
         int count = 0;
 
-        for (int i = 0; i < v; i++) {
-            if (!vis[i]) {
+        for (int i = 0; i < n; i++) {
+            if (vis[i] == 0) {
+                dfs(adjlist, vis, i);
                 count++;
-                dfs(i, adj, vis);
             }
         }
 
         return count;
     }
 };
+
+
 
 
 
@@ -101,6 +102,40 @@ return tm;
 // =========================================================================================================================
 // flood fill algorithm
 
+// using bfs
+class Solution {
+public:
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color) {
+        int n=image.size();
+        int m=image[0].size();
+        int init_color=image[sr][sc];
+        vector<vector<int>>vis(n,vector<int>(m,0));
+        queue<pair<int,int>>q;
+        q.push({sr,sc});
+        vis[sr][sc]=1;
+        image[sr][sc]=color;
+        int nrows[]={-1,0,1,0};
+        int ncols[]={0,1,0,-1};
+        while(!q.empty()){
+            int a=q.front().first;
+            int b=q.front().second;
+            q.pop();
+            for(int i=0;i<4;i++){
+                int row=a+nrows[i];
+                int col=b+ncols[i];
+                if(row>=0 && row<n && col>=0 && col<m && image[row][col]==init_color && vis[row][col]!=1){
+                    image[row][col]=color;
+                    vis[row][col]=1;
+                    q.push({row,col});
+                }
+            }
+
+        }
+        return image;
+    }
+};
+// ============================================================
+// using dfs
 class Solution {
 public:
 void dfs(vector<vector<int>> image,vector<vector<int>>& ans,int sr,int sc,int color,int drows[],int dcols[],int inti_color){
@@ -470,7 +505,7 @@ for(auto it: graph[node]){
         return false;
     }
 }
-
+return true;
 }
 
 bool isBipartite(vector<vector<int>>& graph) {

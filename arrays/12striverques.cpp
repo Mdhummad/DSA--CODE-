@@ -217,6 +217,19 @@ SPACE COMPLEXITY: O(1)
 
 
 
+void leftshift(vector<int>& arr, int k){
+        reverse(arr.begin(), arr.begin() + k);
+        reverse(arr.begin() + k, arr.end());
+        reverse(arr.begin(), arr.end());
+    }
+
+    void rightshift(vector<int>& arr, int k){
+        reverse(arr.begin(), arr.end());
+        reverse(arr.begin(), arr.begin() + k);
+        reverse(arr.begin() + k, arr.end());
+    }
+
+
 // ==================================================================================================
 
 // MOVE ZERO TO END OF THE ARRAY

@@ -7,7 +7,8 @@ string convert_string_to_binary(int n){
     string res;
     while(n>0){          // keep your original condition
         int ans = n % 2;
-        res += to_string(ans);       // fix conversion and append
+        res += to_string(ans);   
+        // or res+=(n%2)+'0';
         n = n / 2;
     }
     reverse(res.begin(), res.end());  // add missing semicolon
@@ -48,7 +49,20 @@ for(int i=len-1;i>0;i++){
 }
 retun num;
 }
-
+// =============================================================================
+int -====32 bits
+long long =====64 bits
+// ========================================================================
+// 1s compliment
+//  and  2s compliment 
+// ============================================================================
+// and mul 0
+// or 1
+// xor==number of 1==odd==1 else even
+// right shift ====    x>>k==x/2 ki pow k
+// left shift =====   x<<k==x * 2 ki pow k
+// not
+// first flip ,check -ve if yes 2s compliment if not then stop
 
 // ==============================================================================================
 //SWAP NUMBER USING XOR VARIABLE
@@ -256,7 +270,7 @@ int main() {
     int num = 37; // Example number: binary 0010 0101
     int k = 3;    // Check the 3rd bit (0-indexed from right)
 
-    if (num & (1 << k)) {
+    if (num & (1 << k) !=0) {
         cout << "The " << k << "th bit is SET." << endl;
     } else {
         cout << "The " << k << "th bit is NOT set." << endl;
@@ -297,7 +311,28 @@ int main() {
 
     return 0;
 }
+
+// ====================================================================================================
+// toggle ith bit
+
+#include <iostream>
+using namespace std;
+
+int main() {
+    int num = 37; // binary: 0010 0101
+    int i = 2;    // toggle the 2nd bit (0-indexed from right)
+
+    num = num ^ (1 << i); // Toggle ith bit
+
+    cout << "Number after toggling " << i << "th bit: " << num << endl;
+
+    return 0;
+}
 // ============================================================================================================
+
+// (num - 1)=====>see this and its relation in binary
+
+
 // REMOVE LAST SET BIT
 #include <iostream>
 using namespace std;
@@ -330,7 +365,54 @@ int main() {
     }
 
     return 0;
-}4
+}
+
+// ========================================================================
+// count umber of set bits
+ //one method is __builtin_popcount(n)
+//  another 
+
+#include <iostream>
+using namespace std;
+
+int main() {
+    int num = 37;   // 0010 0101
+    int count = 0;
+
+    while(num > 0) {
+        if(num & 1)   // check last bit
+            count++;
+
+        num = num >> 1;  // shift right
+    }
+
+    cout << "Number of set bits: " << count;
+
+    return 0;
+}
+
+
+
+// another
+
+#include <iostream>
+using namespace std;
+
+int main() {
+    int n = 37;   // example number
+    int cnt = 0;
+
+    while (n != 0) {
+        n = n & (n - 1);
+        cnt++;
+    }
+
+    cout << "Number of set bits: " << cnt << endl;
+
+    return 0;
+}
+
+
 // =====================================================================================================
 
 // CHECK IF A NUMBER IS ODD OR NOT
@@ -355,7 +437,7 @@ int main() {
 class Solution {
 public:
     int minBitFlips(int start, int goal) {
-        int ans=start^goal;
+        int ans=start^goal;//==>would set all bit as 1 which need to be flipped
 
         int cnt=0;
         while(ans!=0){
@@ -376,22 +458,14 @@ public:
             unique^=nums[i];
         }
         return unique;
-        
+    
     }
 };
 // ==========================================================================================================
 // PRINT ALL SUBSET
 
 // SEE RECURSION METHOD
-// ============================================================================================================-
-// FIND XOR FROM 1 TO N
 
-int xor1ToN(int n) {
-    if (n % 4 == 0) return n;
-    else if (n % 4 == 1) return 1;
-    else if (n % 4 == 2) return n + 1;
-    else return 0;
-}
 // ========================================================================================
 //SINGLE NUMBER 2
 class Solution {
@@ -453,6 +527,17 @@ return ans;
     }
 };
 
+
+
+// ============================================================================================================-
+// FIND XOR FROM 1 TO N
+
+int xor1ToN(int n) {
+    if (n % 4 == 0) return n;
+    else if (n % 4 == 1) return 1;
+    else if (n % 4 == 2) return n + 1;
+    else return 0;
+} 
 // ======================================================================================================
 // SEE EASIER SOL TOO
 
@@ -482,3 +567,128 @@ public:
         return sign * ans;
     }
 };
+
+
+
+// =================================================
+// every element repeat 3 time except 1 find unique element (this question can be a number appear 5 or 6 or any time concept will be same)
+/*
+Problem
+
+In an array:
+
+Every element appears 3 times
+
+Only one element appears once
+
+Find that unique element.
+
+Example:
+
+arr = [2,2,3,2]
+
+Output
+
+3
+
+Another example
+
+arr = [5,5,5,7]
+
+Output
+
+7
+Idea Behind the Solution
+
+If a number appears 3 times, its bits also appear 3 times.
+
+Example:
+
+2 = 010
+2 = 010
+2 = 010
+
+Add bits column-wise:
+
+0+0+0 = 0
+1+1+1 = 3
+0+0+0 = 0
+
+Now take mod 3:
+
+0 % 3 = 0
+3 % 3 = 0
+0 % 3 = 0
+
+So repeated numbers cancel out.
+
+But the unique number's bits remain.
+
+Step-by-Step Example
+arr = [2,2,3,2]
+
+Binary form
+
+2 = 010
+2 = 010
+3 = 011
+2 = 010
+
+Add bits:
+
+0+0+0+0 = 0
+1+1+1+1 = 4
+0+0+1+0 = 1
+
+Take mod 3:
+
+0 % 3 = 0
+4 % 3 = 1
+1 % 3 = 1
+
+Result binary:
+
+011
+
+Which equals:
+
+3
+Algorithm
+
+Check each bit position (0–31).
+
+Count how many numbers have that bit set.
+
+Take count % 3.
+
+Rebuild the number.
+
+*/
+
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int singleNumber(vector<int>& nums) {
+    int result = 0;
+
+    for(int i = 0; i < 32; i++) {
+        int sum = 0;
+
+        for(int num : nums) {
+            if(num & (1 << i))
+                sum++;
+        }
+
+        if(sum % 3)
+            result |= (1 << i);
+    }
+
+    return result;
+}
+
+int main() {
+    vector<int> nums = {2,2,3,2};
+    cout << singleNumber(nums);
+}

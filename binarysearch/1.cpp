@@ -171,6 +171,7 @@ int ceil(vector<int>& nums, int x) {
 
     return ans;
 }
+
 // =====================================================================================
 // find the first and last occurence of x
 
@@ -276,10 +277,10 @@ pair<int, int> firstAndLastPosition(vector<int>& arr, int n, int x) {
 // }
 // return -1;
 
- 
 
 // }
 
+ 
 
 // ======================================================================================================
 // SEARCH IN A SORTED ROTATED ARRAY (PART 2  )
@@ -359,7 +360,47 @@ public:
         return ans;
     }
 };
- 
+// ==================================================================
+// do minimum in rotated sorted array 2
+ class Solution {
+public:
+    int findMin(vector<int>& nums) {
+        int n = nums.size();
+        int low = 0;
+        int high = n - 1;
+        int ans = INT_MAX;
+
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+
+
+            if (nums[low] == nums[mid] && nums[mid] == nums[high]) {
+                ans = min(ans, nums[low]);
+                low++;
+                high--;
+                continue;
+            }
+
+            if (nums[low] < nums[high]) {
+                ans = min(ans, nums[low]);
+                break;
+            }
+
+            if (nums[low] <= nums[mid]) {
+                ans = min(ans, nums[low]);
+                low = mid + 1;
+            }
+          
+            else {
+                ans = min(ans, nums[mid]);
+                high = mid - 1;
+            }
+        }
+
+        return ans;
+    }
+};
+
 // =================================================================================================
 
 // FIND OUT HOW  MANY TIMES AN ARRAY HASS BEEN ROTATED
@@ -399,6 +440,11 @@ int find_min_ele(int n, int arr[], int target) {
     
     return index; // return the index instead of value
 }
+
+// ===========================
+// single element in logn
+
+
 // =============================================================================================
 // FIND PEAK ELEMENT
 // arr[i-1]<arr[i]>arr[i+1] 

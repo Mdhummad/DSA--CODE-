@@ -431,11 +431,12 @@ public:
         return;
     }
 
-    for(int i=n-1;i>ind;i++){
-        if(nums[i]>nums[ind])
-        swap(nums[i],nums[ind]);
-            break;
-    }
+    
+        for(int i=n-1;i>0;i--){
+            if(nums[i]>nums[index]){
+                swap(nums[i],nums[index]);
+                break;
+            }
     reverse(nums.begin()+ind+1,nums.end());
 
     }
@@ -444,7 +445,6 @@ public:
 
 
 // ======================================================================================================
-
 //LEADERS IN A ARRAY
 // everything on the right is samller
 
@@ -732,6 +732,10 @@ public:
 
 // BRUTE FORCE IS O(N^3)
 
+
+
+// storing count and presum ,,it is very important
+
 class Solution {
 public:
     int subarraySum(vector<int>& nums, int k) {
@@ -759,11 +763,31 @@ just small modification
 
 
 
-
-
-
-}
-
-*/
-
 // =======================================================================================================
+// lc 3379
+// circular array concept 
+
+class Solution {
+public:
+    vector<int> constructTransformedArray(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> result(n);   // FIX 1: initialize size
+
+        for (int i = 0; i < n; i++) {
+
+            if (nums[i] > 0) {
+                int p = (i + nums[i]) % n;   
+                result[i] = nums[p];
+            }
+            else if (nums[i] < 0) {
+                int p = (i + nums[i]) % n;   
+                if (p < 0) p += n;           
+                result[i] = nums[p];
+            }
+            else {
+                result[i] = nums[i];
+            }
+        }
+        return result;
+    }
+};

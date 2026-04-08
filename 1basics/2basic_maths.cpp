@@ -41,6 +41,7 @@ retUrn rev_no;
 }
 
 
+
 */
 
 // ===========================================================
@@ -112,8 +113,12 @@ int main() {
     */
 
 //================================================================================
+// print all divisors
 // MATHEMATICAL OBSERVATION
 
+
+//optimal sol  
+//n/i and i are the factor
 /*
 void print_divisor(int n){
 vector<int> ls;
@@ -139,18 +144,6 @@ for(auto it: ls)cout<< it<<" ";
 
 // PRIME NUMBER
 
-// BRUTE FORCE SOLUTION
-// time complexity here is O(n)
-/*
-bool primenumber(int n){
-for(int i=0; i<n;i++){
-if (n%i==0){count++;}
-}
-if(count==2)return true;
-else return false;
-}
-
-*/
 
 // optimized solution
 /*

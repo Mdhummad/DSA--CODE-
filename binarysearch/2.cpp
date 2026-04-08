@@ -48,7 +48,7 @@ using binary search
  }
  }
 
- return ans;
+ return ans;//==>you can also return high because it will aslo point to the ans
  }
 
 */
@@ -130,6 +130,40 @@ int minimumRateToEatBananas(vector<int> &v, int h) {
     return low;
 }
 */
+
+
+
+//=================
+
+class Solution {
+public:
+    long long find_hrs(int k, vector<int>& piles) {
+        long long total_hrs = 0;
+        for (auto it : piles) {
+            int hrs = ceil((double)it / k);
+            total_hrs += hrs;
+        }
+        return total_hrs;
+    }
+
+    int minEatingSpeed(vector<int>& piles, int h) {
+        int low = 1;
+        int high = *max_element(piles.begin(), piles.end());
+        int ans = -1;
+
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+
+            if (find_hrs(mid, piles) <= h) {
+                ans = mid;
+                high = mid - 1;
+            } else {
+                low = mid + 1;
+            }
+        }
+        return ans;
+    }
+};
 
 // ============================================================================================================
 
@@ -306,7 +340,7 @@ return low;
 
 // ==========================================================================================================================
 
-NEW PATTERN FROM HERE  THAT IS MIN OF MAX    ORRR MAX OF MIN
+// NEW PATTERN FROM HERE  THAT IS MIN OF MAX    ORRR MAX OF MIN
 
 // AGGRESSIVE COWS
 
@@ -340,10 +374,10 @@ int mid(low+high)/2;
 
 if(is_possible(arr,mid,cows)==true){
 
-low=mid-1;
+low=mid+1;
 }
 else{
-high=mid+1;
+high=mid-1;
 }
 
 return high;
@@ -396,6 +430,7 @@ int findPages(vector<int>& nums, int no_of_students, int no_of_books) {
 // PAINTERS PARTITION and SPLIT ARRAY LARGEST SUM
 // so given an array we have to split array such that sum of a subarray is min is compared to sum of all other partition 
 
+// same as above question
 
 
 
@@ -407,9 +442,37 @@ int findPages(vector<int>& nums, int no_of_students, int no_of_books) {
 
 // BRUTE FORCE
 
-DO IT
+long double minimisemaximumdiff(vector<int>& arr,int k){
+    int n=arr.size();
+    vector<int>howmany(n-1,0);
+    for(int gasstation=1;gasstation<=k;gasstation++){
+        int double maxsection=-1;
+        int maxind=-1;
+         for(int i=0;i<n;i++){
+            long double diff=arr[i+1]-arr[i];
+            long double sectionlenghth=diff/howmany[i]+1;
+            if(sectionlenghth>maxsection){
+                maxsection=sectionlenghth;
+                maxind=i;
+            }
+         }
+         howmany[maxind]++;
+    } 
+    lon double maxans=-1;
+    for(int i=0;i<n-1;i++){
+        long double diff=arr[i+1]-arr[i];
+        long double sectionlenghth=diff/long double(howmany[i]+1);
+        maxans=max(maxans,sectionlenghth)
+    }
+return maxans;
+}
 
 
+
+// priority queue sol 
+
+
+ 
 // =============================================================================================================================
 
 

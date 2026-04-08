@@ -1,27 +1,14 @@
 //DiJkstra's algo
 //used to find the shortest path in a weighted undirected fraph
 //in ADJACENCY LIST corresponding nodes ans weight are store
-// dijkstra algo can be implemented via priority queue and set and not queue (SEE VIDEO WHY????)
-
-
-
-
-
-
-
-
+// dijkstra algo can be implemented via priority queue and set and not queue (SEE VIDEO WHY????
 
 // do code
 
-
-
-
-
-
 // TOPO SORT (DFS)==>applicable only on DIRECTED ACYCLIC GRAPH
-
+//=================================================================================================================================================================
 /*
-TOPOLOGICAL SORTING IS VALID ONLY UPON DAG ,IT IS LINEAR
+TOPOLOGICAL SORTING IS VALID ONLY UPON DAG(directed acyclic graph) ,IT IS LINEAR
 ORDERING OF VERTICES SUCH THAT IF THERE IS AN EDGE BETWEEN
 U AND V , U APPEAR BEFORE V IN THE ORDERING
 */
@@ -58,7 +45,6 @@ public:
         return ans;
     }
 };
-
 
 // ========================================================================
 // TOPO BFS OR KAHN'S ALGO
@@ -100,20 +86,37 @@ for(auto it: ad[node]){
 return topo;
 }
 
+
+
+
+
 // ========================================================================================================================
 // we can find cycle in directed graph using topo sort
+if you are able to generate topo sort that mean there is no cycle
 // ================================================================================================================================
 // course schedule 1
+
 
 class Solution {
 public:
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
          int V = numCourses;
-        vector<vector<int>> adj(V);
+        vector<int> adj[V];
 
         for (auto it : prerequisites) {
-            adj[it[1]].push_back(it[0]);
+            adj[it.first()].push_back(it.second());
         }
+
+        // or
+
+        vector<vector<int>> adj(numCourses);
+        for (auto &it : prerequisites) {
+        int course = it[0];
+        int prereq = it[1];
+        adj[prereq].push_back(course);
+    }
+
+
 
 vector<int>indegree(V,0);
 for(int i=0;i<V;i++){
@@ -148,9 +151,53 @@ if(topo.size()==V)return true;
 
 // =========================================================
 // see course schedule 2 tooo
+class Solution {
+public:
+    vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
+
+  int V = numCourses;
+        vector<vector<int>> adj(V);
+
+        for (auto it : prerequisites) {
+            adj[it[1]].push_back(it[0]);
+        }
+
+vector<int>indegree(V,0);
+for(int i=0;i<V;i++){
+  for(auto it: adj[i]){
+    indegree[it]++;}  }
+
+queue<int> q;
+for(int i=0;i<V;i++){
+    if(indegree[i]==0){
+        q.push(i);}
+}
+
+vector<int>topo;
+while(!q.empty()){
+int node=q.front();
+q.pop();
+topo.push_back(node);
+
+for(auto it: adj[node]){
+    indegree[it]--;
+    if(indegree[it]==0){
+        q.push(it);
+    }
+}
+}
+return topo;
+
+
+    }
+};
+
+
+
+
 // ===========================================================
 // find eventual safe states
-
+// 2SOLUTION
 class Solution {
 public:
     vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
@@ -193,6 +240,56 @@ return safenodes;
 
     }
 };
+// =====================
+class Solution {
+public:
+    vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
+        int v = graph.size();
+
+        vector<int> indegree(v, 0);
+        vector<vector<int>> rev_graph(v);  
+
+        // Build reverse graph
+        for (int i = 0; i < v; i++) {
+            for (auto it : graph[i]) {
+                rev_graph[it].push_back(i);
+            }
+        }
+
+        // Calculate indegree
+        for (int i = 0; i < v; i++) {
+            for (auto it : rev_graph[i]) {
+                indegree[it]++;
+            }
+        }
+
+        queue<int> q;
+        vector<int> safenodes;
+
+        // Push terminal nodes
+        for (int i = 0; i < v; i++) {
+            if (indegree[i] == 0)
+                q.push(i);
+        }
+
+        // Kahn
+        while (!q.empty()) {
+            int node = q.front();
+            q.pop();
+            safenodes.push_back(node);
+
+            for (auto it : rev_graph[node]) {
+                indegree[it]--;
+                if (indegree[it] == 0)
+                    q.push(it);
+            }
+        }
+
+        sort(safenodes.begin(), safenodes.end());
+        return safenodes;
+    }
+};
+
 
 //==========================================================
 // ALIEN DIC

@@ -1,33 +1,28 @@
 //PRINT PRIME FACTOR OF A NUMBER
+#include <iostream>
+using namespace std;
 
-bool prime(int n) {
-    int count = 0;
-
-    for (int i = 1; i <= sqrt(n); i++) {
-        if (n % i == 0) {
-            count++;
-            if ((n / i) != i)  // avoid counting same divisor twice
-                count++;
+void printPrimeFactors(int N) {
+    for (int i = 2; i <=sqrt(N); i++) {
+        while (N % i == 0) {
+            cout << i << " ";
+            N = N / i;
         }
     }
 
-    if (count == 2) return true;
-    else return false;
-}
-
-vector<int> print_all_prime(int n) {
-    vector<int> ans;
-
-    for (int i = 1; i <= sqrt(n); i++) {
-        if (n % i == 0) {
-            if (prime(i)) ans.push_back(i);
-            if ((n / i) != i && prime(n / i))
-                ans.push_back(n / i);
-        }
+    // If N is still greater than 1
+    if (N > 1) {
+        cout << N;
     }
-
-    return ans;
 }
+
+int main() {
+    int N;
+    cin >> N;
+    printPrimeFactors(N);
+    return 0;
+}
+
 
 // =================================================================
 // PRINT DIVISOR OF THE NUMBER
@@ -56,7 +51,7 @@ public:
          vector<bool>sieve(n+1,1);
          sieve[0]=sieve[1]=false;
 
-         for(int i=2;i<=n;i++){
+         for(int i=2;i* i<=n;i++){
             if(sieve[i]==true){
                 for(int j=i*i;j<=n;j+=i){
                     sieve[j]=false;
@@ -77,22 +72,57 @@ public:
 // PRIME FACTORIZATION OF A NUMBER
 
 
-vector<int> sieve(int n) {
-    vector<bool> isPrime(n + 1, true);
-    isPrime[0] = isPrime[1] = false;
+#include <iostream>
+using namespace std;
 
-    for (int i = 2; i * i <= n; i++) {
-        if (isPrime[i]) {
-            for (int j = i * i; j <= n; j += i)
-                isPrime[j] = false;
+void printPrimeFactors(int N) {
+    for (int i = 2; i * i <= N; i++) {
+        while (N % i == 0) {
+            cout << i << " ";
+            N = N / i;
         }
     }
 
-    vector<int> primes;
-    for (int i = 2; i <= n; i++) {
-        if (isPrime[i])
-            primes.push_back(i);
+    // If N is still greater than 1
+    if (N > 1) {
+        cout << N;
+    }
+}
+
+int main() {
+    int N;
+    cin >> N;
+    printPrimeFactors(N);
+    return 0;
+}
+
+//==================================================================================================
+//brute force
+int power(int x,int n){
+    int ans=1;
+    for(int i=0;i<n;i++){
+        ans=ans*x;
+    }
+return ans;
+}
+
+// 
+// optimal
+int power(int x, int n) {
+    int ans = 1;
+
+    while (n > 0) {
+        if (n % 2 != 0) {     
+            ans = ans * x;
+            n = n - 1;
+        } else {              
+            x = x * x;
+            n = n / 2;
+        }
     }
 
-    return primes;
+    return ans;
 }
+
+
+// if the power is negative simply devide ans by 1

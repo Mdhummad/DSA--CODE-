@@ -1,3 +1,6 @@
+// see implementatoon of linklist using array etc
+
+
 /*
 SEE LECTURE 1,ITS VERY EASY
 
@@ -21,25 +24,6 @@ public:
 };
 
 // ========================================================================
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -91,6 +75,15 @@ count++;
 }
 return count;
 }
+int check(Node* head,int val){
+    Node* temp=head;
+    while(temp){
+    if(temp->val==val){return 1;}
+    temp=temp->next;
+    }
+    return 0;
+}
+
 
 
 // delete 
