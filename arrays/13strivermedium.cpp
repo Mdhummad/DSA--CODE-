@@ -47,11 +47,83 @@ string read(int n, vector<int> book, int target) {
     return "NO";  // No such pair found
 }
 */
-
-
+// ====================================================================================================
 // SORT 0'S 1;'S AND 2'S
 
-// DONE PREVIOSLY
+//BRUTE 
+// use merge sort 
+// time complexity will be O(nlogn)
+
+// BETTER
+//time complexity==O(n)
+/*
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {    int n = nums.size();
+    int noz=0;
+    int no1=0;
+    int notw=0;
+
+for(int i=0;i<nums.size();i++){
+    if(nums[i]==0)noz++;
+    if(nums[i]==1)no1++;
+    if(nums[i]==2)notw++;
+}
+
+//fill
+for(int i=0;i<nums.size();i++){
+    if(i<noz)nums[i]=0;
+    else if(i<noz+no1)nums[i]=1;
+    else nums[i]=2;
+}
+return;
+        
+    }
+};
+*/
+
+// OPTIMAL
+// DUTCH national flag algo
+// using 3 pointer
+ 
+//0 to low-1-->0
+//low to mid-1-->1
+//mid to high-->0/1/2
+//high+1 to n-1-->2
+
+// solving in term of mid
+// a[mid]==0-->swap a[mid] and a[low] low++,mid++
+// a[mid]==1--> mid++
+// a[mid]==2-->swap a[mid] and a[high] high--
+
+/*
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+        int n=nums.size();
+        int low =0;
+        int mid=0;
+        int high=n-1;
+        while(mid<=high){
+            if( nums[mid]==0){
+                swap(nums[mid],nums[low]);
+                mid++;
+                low++;
+            }
+            else if(nums[mid]==1){
+                mid++;
+            }
+            else{
+                swap(nums[mid],nums[high]);
+                high--;
+            }
+        }        
+
+    }
+};
+*/
+
+
 
 // ===============================================================================================
 //MAJORITY ELEMENT
@@ -95,7 +167,6 @@ time complexity=O(n)
 
 
 
-
 // OPTIMAL SOLUTION
 MOORE VOTING ALGO
 
@@ -132,7 +203,6 @@ count = 0;
 
 }
 */
-
 
 
 // ================================================================================================
@@ -199,7 +269,6 @@ int maxSubArray(vector<int>& nums) {
     return maxi;
     }
 };
-
 
 
 // IF WE HAVE TO PRINT TE SUBARRAY
@@ -506,6 +575,8 @@ largest=max(largest,count)
 return max_count;
     }
 
+
+
 */
 // =====================================================================================================
 // SET MATIRX EUAL TO 0;
@@ -537,6 +608,41 @@ return max_count;
         
 //         return;
 //     }
+// =================================================================================
+//rotate a image
+
+class Solution {
+public:
+    void rotate(vector<vector<int>>& matrix) {
+     int n=matrix.size();
+
+     // transpose in the same satrix
+for(int i = 0; i < n; i++) {
+        for (int j = i+1; j < n; j++) {
+     //swapping of  i,j and j,i       
+       int temp=matrix[i][j];
+       matrix[i][j]=matrix[j][i];
+       matrix[j][i]=temp;    
+        }
+       
+    }
+
+// REVERSE EACH ROW
+
+for(int k = 0; k<n;k++) {
+   int i=0;
+   int j=n-1;
+   while(i<=j){
+    int temp=matrix[k][i];
+       matrix[k][i]=matrix[k][j];
+       matrix[k][j]=temp; 
+       i++;
+       j--;
+   }    
+        }
+
+    }
+};
 
 // ==================================================================================
 // spiral matrix
@@ -647,6 +753,9 @@ public:
     }
 };
 
+
+the above solution is similar to count max sub array of length K
+just small modification
 
 
 

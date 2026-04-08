@@ -19,7 +19,8 @@ public:
             for (int j = 0; j < v; j++) {
                 if (isConnected[i][j] == 1 && i != j) {
                     adj[i].push_back(j);
-                    adj[j].push_back(i);
+                 adjls[i].push_back(j);
+                    adjls[j].push_back(i);
                 }
             }
         }
@@ -37,6 +38,9 @@ public:
         return count;
     }
 };
+
+
+
 // ================================================================================================
 
 // ROTTEN ORANGES
@@ -402,7 +406,7 @@ if(word==endWord)return time;
     }
 }; 
 // ==============================================================================================
-//NO.OF ISLAND 2
+//word laddr 2
  
 
 // == ===============================================================================
@@ -469,9 +473,7 @@ for(auto it: graph[node]){
 
 }
 
-
-
-    bool isBipartite(vector<vector<int>>& graph) {
+bool isBipartite(vector<vector<int>>& graph) {
 
  int v =graph.size();
 vector<int>visited(v,-1);

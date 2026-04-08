@@ -27,6 +27,7 @@ OPTIMAL SOLUTION
 TIME COMPLEXITY :O(N)
 */
 
+
 // =================================================================================================
 
 // 2) SECOND LARGEST ELEMENT IN AN ARRAY
@@ -59,7 +60,6 @@ else(arr[i]!=max1 && arr[i]>max2){
 max2=arr[i];
 }
 }
-
 
 }
 
@@ -158,6 +158,13 @@ void remove_duplicate(vector<int>& arr){
  return i+1; // return the new size of the array
 SEEE WHY ARE WE RETURNING THE SIZE OF THE ARRAY (ASK GPT)
  }
+\
+
+
+
+
+
+
 /*
     I HAVE ONE MORE SOLUTION WITH THE HELP OF TWO POINTER AND IT IS ALSO COMPARITEVLY EASY
 
@@ -208,6 +215,8 @@ SPACE COMPLEXITY: O(1)
 // }
 
 
+
+
 // ==================================================================================================
 
 // MOVE ZERO TO END OF THE ARRAY
@@ -255,21 +264,6 @@ for(int i=j+1;i<n;i++){
 if(arr[i]!=0){
 swap(arr[i],arr[j]);
 j++;}}
-
-class Solution {
-public:
-    void moveZeroes(vector<int>& nums) {
-        int n = nums.size();
-        int j = 0; // pointer for placing non-zero elements
-
-        for (int i = 0; i < n; i++) {
-            if (nums[i] != 0) {
-                swap(nums[i], nums[j]);
-                j++;
-            }
-        }
-    }
-};
 
 
 
@@ -345,7 +339,7 @@ vector<int> union_sorted(const vector<int>& arr1, const vector<int>& arr2) {
             if (result.empty() || result.back() != arr1[i])
                 result.push_back(arr1[i]);
             i++;
-            i++;
+            j++;
         }
     }
 
@@ -449,6 +443,10 @@ vector<int> intersection(vector<int>& arr1,vetctor<int>& arr2) {
         return result;
   
 }
+
+
+
+}
 */
 // time complexity: O(N+M) //N AND M ARE THE SIZE OF THE TWO ARRAYS
 // space complexity: O(N+M) //DUE TO RESULT VECTOR
@@ -546,7 +544,7 @@ void findmax1(vector<int>& arr) {
 */
 
 
-
+ 
 //=================================================================================================
 
 // FIND THE NUMBER OF PAIRS IN AN ARRAY THAT SUMS TO A GIVEN VALUE
@@ -590,7 +588,6 @@ void count_pairs_with_sum(const vector<int>& arr, int x) {
 }
 
 */
-
 
 // ==================================================================================================
 // FIND THE NUMBER THAT APPEARS ONCE IN AN ARRAY WHERE EVERY OTHER ELEMENT APPEARS TWICE
@@ -784,9 +781,8 @@ int longest_subarray_with_sum_k(vactor<int>& arr,long long k){
 
 
    }  
+    }'
 
-
-    }
 
 
 

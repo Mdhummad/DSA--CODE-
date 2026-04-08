@@ -98,7 +98,7 @@ low=mid+1;
 }
 // =============================================================================================================================
 // search insert position
-// is it (not) equal to saying we have to insert only at lower bound
+// is it   equal to saying we have to insert only at lower bound
 
 class Solution {
 public:
@@ -276,7 +276,7 @@ pair<int, int> firstAndLastPosition(vector<int>& arr, int n, int x) {
 // }
 // return -1;
 
-
+ 
 
 // }
 

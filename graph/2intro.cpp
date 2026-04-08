@@ -185,3 +185,14 @@ adj[j].push_back[i];
 
 }
 
+
+  vector<vector<int>> adj(V);
+
+    for(int i = 0; i < V; i++) {
+        for(int j = 0; j < V; j++) {
+            if(mat[i][j] == 1) {
+                adj[i].push_back(j);
+            }
+        }
+    }
+

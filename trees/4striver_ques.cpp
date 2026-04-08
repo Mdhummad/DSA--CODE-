@@ -141,6 +141,7 @@ bool isBalanced(Node *root)
     }
     // WRITE CODE TO GIVE THE PATH FOR MAX DIAMETER
     
+
  
     // ==================================================================================================
 
@@ -291,6 +292,8 @@ vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
                 cur = cur->right;
         }
     }
+
+  
 
     // Add right boundary (excluding leaves, bottom-up)
     // extra temp variable used for reversing the arra
@@ -453,7 +456,7 @@ return ans;
 
         while (!q.empty()) {
             Node* current = q.front().first;
-            int hd = q.front{}.second;
+            int hd = q.front().second;
                 mp[hd] = current->data;
     // AS KEY IS UNIQUE SO IT WILL GIVE BOTTOM VIEW
 

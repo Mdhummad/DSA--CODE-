@@ -47,6 +47,8 @@ space complexity :O(n)
 
 
 
+
+
 // =============================================
 // leetcode  :nextgreater ele
 // upar wala is just concept
@@ -464,3 +466,106 @@ public:
     }
 };
 // ==================================================
+// MAXIMAL RECTANGLE
+
+class Solution {
+public:
+    int largest_rectangle_area(vector<int>& arr) {
+        int n = arr.size();
+        vector<int> nse(n), pse(n);
+        stack<int> st1, st2;
+
+        for (int i = n - 1; i >= 0; i--) {
+            while (!st1.empty() && arr[st1.top()] >= arr[i]) {
+                st1.pop();
+            }
+            nse[i] = st1.empty() ? n : st1.top();
+            st1.push(i);
+        }
+
+        for (int i = 0; i < n; i++) {
+            while (!st2.empty() && arr[st2.top()] >= arr[i]) {
+                st2.pop();
+            }
+            pse[i] = st2.empty() ? -1 : st2.top();
+            st2.push(i);
+        }
+
+        int max_area = 0;
+        for (int i = 0; i < n; i++) {
+            int area = arr[i] * (nse[i] - pse[i] - 1);
+            max_area = max(max_area, area);
+        }
+        return max_area;
+    }
+
+    int maximalRectangle(vector<vector<char>>& matrix) {
+        int n = matrix.size();
+        int m = matrix[0].size();
+
+        vector<vector<int>> prefix_sum(n, vector<int>(m, 0));
+
+        for (int j = 0; j < m; j++) {
+            int sum = 0;
+            for (int i = 0; i < n; i++) {
+                if (matrix[i][j] == '1') {
+                    sum++;
+                } else {
+                    sum = 0;
+                }
+                prefix_sum[i][j] = sum;
+            }
+        }
+
+        int maxarea = 0;
+        for (int i = 0; i < n; i++) {
+            int area = largest_rectangle_area(prefix_sum[i]);
+            maxarea = max(maxarea, area);
+        }
+        return maxarea;
+    }
+};
+
+
+
+//===============================================
+// largest_rectangle_area
+
+class Solution {
+public:
+    int largest_rectangle_area(vector<int>& arr) {
+        int n = arr.size();
+        vector<int> nse(n), pse(n);
+        stack<int> st1, st2;
+
+        // Next Smaller Element
+        for (int i = n - 1; i >= 0; i--) {
+            while (!st1.empty() && arr[st1.top()] >= arr[i]) {
+                st1.pop();
+            }
+            nse[i] = st1.empty() ? n : st1.top();
+            st1.push(i);
+        }
+
+        // Previous Smaller Element
+        for (int i = 0; i < n; i++) {
+            while (!st2.empty() && arr[st2.top()] >= arr[i]) {
+                st2.pop();
+            }
+            pse[i] = st2.empty() ? -1 : st2.top();
+            st2.push(i);
+        }
+
+        int max_area = 0;
+        for (int i = 0; i < n; i++) {
+            int area = arr[i] * (nse[i] - pse[i] - 1);
+            max_area = max(max_area, area);
+        }
+        return max_area;
+    }
+
+    int largestRectangleArea(vector<int>& heights) {
+        return largest_rectangle_area(heights);
+    }
+};
+// ===================================================================================

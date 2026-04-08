@@ -40,11 +40,36 @@ sort(v.begin(),v.end(),comparastor2);
 
 }
 
+// ==========================================================================================
+// leetcode 1356 
+remember how code doesnot work then we have to write comparator outside class and this workss
+
+
+  bool helper(int a,int b){
+        int count1=__builtin_popcount(a);
+        int count2=__builtin_popcount(b);
+
+        if(count1==count2)return a<b;
+        else return count1<count2;
+    }
+
+class Solution {
+public:
+   
+
+
+    vector<int> sortByBits(vector<int>& arr) {
+        
+        sort(arr.begin(),arr.end(), helper);
+        return arr;
+    }
+};
+
 
 
 // ===================================================================================================
                         //lambda epression
-                        //very important ===>see again
+                        //very important ===>see again 
 #include<iostream>
 #include<vector>
 #include<algorithm>
@@ -108,4 +133,15 @@ public:
 };
 
 // ========================================================
-LEARN MORE ABOUT COMPARATOR FROM CHAT GPT
+lc 905
+
+class Solution {
+public:
+    vector<int> sortArrayByParity(vector<int>& nums) {
+        auto mylamda=[](int a,int b){
+           return (a%2)<(b%2);
+        };
+        sort(nums.begin(),nums.end(),mylamda);
+        return nums;
+    }
+};

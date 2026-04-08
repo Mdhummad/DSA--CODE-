@@ -17,69 +17,54 @@ ANSWERS
 /*
 HERE WE HAVE FOUND ONLY THE NCR NOT THE PASCAL ELEMENT
 
+// =============================================
+// printing a particular ele
 
-
-int NcR(int rows,int column){
-int res=1; 
-for(int i=0;i<column;i++){
-res=res*(rows-i);
-res=res/(i+1);
-}
-return res;
-}
-
-int pascal_element(int row,int column){
-int ele=ncr(row-1,column-1);
-cout<<ele;
+int NcR(int rows, int column) {
+    int res = 1; 
+    for (int i = 0; i < column; i++) {
+        res = res * (rows - i);
+        res = res / (i + 1);
+    }
+    return res;
 }
 
-
-
-
-2 solution for 2 question
-vector<int> elements_in_row(int row,int column){
-vector<int> ans;
-for(int i=0;i<column;i++){
-int ele=int NcR(rows,column);
-ans.push_back(ele);
+int pascal_element(int row, int column) {
+    int ele = NcR(row - 1, column - 1);
+    return ele;
 }
 
 
-TIME COMPLEXITY WILL BE HIGH FOR ABOVE CODE 
+// ================================================
+//printing a row of pascal
 
-SO BETTER APPROACH WILL BE
-vector<int> elements_in_row(int row,int column){
-vector<int> ans;
-int sol=1;
-for(int i=1;<icolumn;i++){
-sol=sol*(rows-i);
-sol=sol/i;
-ans.push_back(sol);
-}
-
-TIME COMPLEXITY=O(N)
-
-
-3 SOLUTION
-
-vector<vector<int>> generate(int numRows) {
-        int m=numRows;
-vector<vector<int> > v;
-for(int i=0;i<m;i++){
-    vector<int> a(i+1);
-    v.push_back(a);
-    for(int j=0;j<=i;j++){
-        if(j==0 || j==i)
-        v[i][j]=1;  
-        else 
-        v[i][j]=v[i-1][j] +v[i-1][j-1];
-        
-            }
-       }
-   return v;
-        
+void pascal_row(int row) {
+    for (int col = 1; col <= row; col++) {
+        cout << NcR(row - 1, col - 1) << " ";
     }
 }
+
+//===============================================
+// printiing whole pascal triangle
+
+vector<vector<int>> generate(int numRows) {
+    vector<vector<int>> v;
+
+    for (int i = 0; i < numRows; i++) {
+        vector<int> row;
+
+        for (int j = 0; j <= i; j++) {
+            if (j == 0 || j == i)
+                row.push_back(1);
+            else
+                row.push_back(v[i - 1][j] + v[i - 1][j - 1]);
+        }
+
+        v.push_back(row);
+    }
+    return v;
+}
+
 
 
 
