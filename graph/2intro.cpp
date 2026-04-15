@@ -1,3 +1,17 @@
+
+/*
+Feature	Adjacency List	Adjacency Matrix
+Code	vector<vector<int>> adj(n);	vector<vector<int>> adj(n, vector<int>(n,0));
+Storage	Only neighbors	Full grid
+Space	O(n + e)	O(n²)
+Edge check	Slower	O(1)
+Traversal	Fast	Slower
+Best for	Sparse graphs	Dense graphs
+
+*/
+
+
+
 /* STORING A MATRIX */
 
 #include<iostream>
@@ -21,6 +35,29 @@ int main(){
 // see directed graph case too
  
 // space used ==N*N
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    int n;
+    cout << "Enter no. of nodes: ";
+    cin >> n;
+
+    vector<vector<int>> adj(n, vector<int>(n, 0)); // initialize with 0
+
+    cout << "Enter number of edges: ";
+    int o;
+    cin >> o;
+
+    for(int i = 0; i < o; i++) {
+        cout << "Enter edge (u v): ";
+        int x, y;
+        cin >> x >> y;
+
+        adj[x][y] = 1;
+        adj[y][x] = 1; // remove this line for directed graph
+    } 
 
 //=================================================================================
 // ADJACENT LIST
@@ -46,6 +83,29 @@ for(int i=0;i<m;i++){
 }
 
 
+
+// vector<vector<int>> based
+int n, m;
+cin >> n >> m;
+
+vector<vector<int>> adj(n);
+
+for(int i = 0; i < m; i++) {
+    int u, v;
+    cin >> u >> v;
+
+    adj[u].push_back(v);
+    adj[v].push_back(u); // remove this line for directed graph
+}
+
+
+🔹 2. Weighted Graph
+✅ Using pair
+vector<vector<pair<int,int>>> adj(n);
+
+// u -> v with weight w
+adj[u].push_back({v, w});
+adj[v].push_back({u, w}); // for undirected
 // =======================================================================================================
 
 
@@ -55,7 +115,7 @@ for(int i=0;i<m;i++){
 
 class Solution {
 private:
-    void dfs(int node, vector<int> &adjls[], int vis[]) {
+    void dfs(int node, vector<vector<int>> &adjls, vector<int> &vis) {
         vis[node] = 1;
         for(auto it : adjls[node]) {
             if(!vis[it]) {
@@ -66,26 +126,26 @@ private:
 
 public:
     int numProvinces(vector<vector<int>> adj, int V) {
-        vector<int> adjls[V];
+        vector<vector<int>> adjls(V);
 
-        // to change adjacency matrix to list
         for(int i = 0; i < V; i++) {
             for(int j = 0; j < V; j++) {
                 if(adj[i][j] == 1 && i != j) {
                     adjls[i].push_back(j);
-                    adjls[j].push_back(i);
                 }
             }
         }
 
-        int vis[V] = {0};
+        vector<int> vis(V, 0);
         int cnt = 0;
+
         for(int i = 0; i < V; i++) {
             if(!vis[i]) {
                 cnt++;
                 dfs(i, adjls, vis);
             }
         }
+
         return cnt;
     }
 };
@@ -167,32 +227,12 @@ public:
 // ====================================================================
 // changing adjacency matrix two adjacncy list
 
-void change_matrix_to_list(vector<vector<int>>& isconnected){
-int v=isConnected.size();
-vector<int> adj[v];
-for(int i=0;i<v;i++){
-for(int j=0;j<v;j++){
-    if(isconnected[i][j]==1 && i!=j){
-adj[i].push_back[j];
-adj[j].push_back[i];
+vector<vector<int>> adjList(V);
 
-    }
-
-}
-
-}
-
-
-}
-
-
-  vector<vector<int>> adj(V);
-
-    for(int i = 0; i < V; i++) {
-        for(int j = 0; j < V; j++) {
-            if(mat[i][j] == 1) {
-                adj[i].push_back(j);
-            }
+for(int i = 0; i < V; i++) {
+    for(int j = 0; j < V; j++) {
+        if(adj[i][j] == 1 && i != j) {
+            adjList[i].push_back(j);
         }
     }
-
+}

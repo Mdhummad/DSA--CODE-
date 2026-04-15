@@ -308,7 +308,7 @@ ListNode* newhead=reverse_linked_list(slow->next);
 
 ListNode* first=head;
 ListNode* second=newhead;
-
+ 
 while(second!=NULL){
 if(first->val!=second->val){
     reverse_linked_list(newhead);
